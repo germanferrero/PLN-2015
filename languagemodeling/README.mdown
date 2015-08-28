@@ -1,0 +1,9 @@
+# Ejercicio 1
+
+El corpus elegido es un conjunto de entrevistas a empresarios funcionarios y vecinos
+de Asunción, La Paz y Córdoba. Las entrevistas fueron desgrabadas por licenciados en
+ciencias políticas durante su doctorado.
+
+## Scripts para cambiar convertir formato y codificación.
++ Convertir rtf a txt: `find ./ -iname "*.rtf" -type f -exec sh -c 'unrtf --text "${0}">"${0%.rtf}.txt"'  {} \;`
++ Convertir formato a utf-8: `find ./ -iname "*.txt" -type f -exec sh -c 'iconv -f ISO-8859-15 -t utf-8 "${0}" > "${0%.txt}_2.txt"'  {} \;`
