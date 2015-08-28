@@ -1,6 +1,7 @@
 # https://docs.python.org/3/library/collections.html
 from collections import defaultdict
 from languagemodeling import constants
+from math import log
 
 class NGram(object):
 
@@ -44,9 +45,11 @@ class NGram(object):
         n = self.n
         if not prev_tokens:
             prev_tokens = []
-        assert len(prev_tokens) == n - 1
+        # assert len(prev_tokens) == n - 1
 
         tokens = prev_tokens + [token]
+        print (token)
+        print (tokens)
         return float(self.counts[tuple(tokens)]) / self.counts[tuple(prev_tokens)]
 
     def sent_prob(self, sent):
@@ -54,10 +57,23 @@ class NGram(object):
 
         sent -- the sentence as a list of tokens.
         """
-
+        prob = 1
+        my_sent = ([constants.BEGIN_SENTENCE_MARKER] * (self.n - 1)) + sent
+        my_sent.append(constants.END_SENTENCE_MARKER)
+        for i in range(self.n-1,len(my_sent)):
+            token = my_sent[i]
+            prob *= self.cond_prob(my_sent[i],my_sent[i-(self.n-1):i])
+            if prob == 0:
+                print (prob)
+                break
+        return prob
 
     def sent_log_prob(self, sent):
         """Log-probability of a sentence.
 
         sent -- the sentence as a list of tokens.
         """
+        prob = self.sent_prob(sent)
+        if prob == 0:
+            return float('-inf')
+        return log(self.sent_prob(sent),2)

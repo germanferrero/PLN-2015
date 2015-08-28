@@ -7,3 +7,26 @@ ciencias políticas durante su doctorado.
 ## Scripts para cambiar convertir formato y codificación.
 + Convertir rtf a txt: `find ./ -iname "*.rtf" -type f -exec sh -c 'unrtf --text "${0}">"${0%.rtf}.txt"'  {} \;`
 + Convertir formato a utf-8: `find ./ -iname "*.txt" -type f -exec sh -c 'iconv -f ISO-8859-15 -t utf-8 "${0}" > "${0%.txt}_2.txt"'  {} \;`
+
+
+# Ejercicio 2
+
+## Count: 
++ Al agregar los marcadores de inicio y fin de oración, 
+debí modificar el count del n-grama para que no contabilice 
+la aparición del inicio de oración.
+
+## Sent prob:
++ A la sentencia hay que agregarle el marcador de finalización de oración,
+ y tantos marcadores de inicio de oración como prev_tokens se necesiten (n-1).
+ Esto es para poder calcular la probabilidad condicional de los primeros n-1 tokens
+ que no poseen n-1 tokens previos.
++ Al encontrar una probabilidad condicional igual a 0, se detiene el cálculo para
+para no generar una división por 0 en la probabilidad condicional del siguiente token.
+    -Ej: En un bigrama: 
+    P('come salmón .') = P('come salmón'|'come') * P('salmón .'| salmón)
+    El cálculo del segundo termino deriva en una división por 0, pero podemos evitarlo ya que
+    el primer término es 0.
+
+## Sent prob log:
++ Simplemente devuelvo el logaritmo en base 2 de la probabilidad. Si la probablidad es 0, devuelvo el valor -inf de python.
