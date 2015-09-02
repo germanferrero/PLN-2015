@@ -13,10 +13,10 @@ class NGram(object):
         assert n > 0
         self.n = n
         self.counts = counts = defaultdict(int)
-
+        begin_sentence_list = [constants.BEGIN_SENTENCE_MARKER] * (n-1)
         for sent in sents:
             # Insert sentence markers.
-            sent.insert(0,constants.BEGIN_SENTENCE_MARKER)
+            sent = begin_sentence_list + sent
             sent.append(constants.END_SENTENCE_MARKER)
             for i in range(len(sent) - n + 1):
                 ngram = tuple(sent[i: i + n])
