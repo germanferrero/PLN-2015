@@ -77,3 +77,34 @@ class NGram(object):
         if prob == 0:
             return float('-inf')
         return log(self.sent_prob(sent),2)
+
+class NGramGenerator:
+
+    def __init__(self, model):
+        """
+        model -- n-gram model.
+        """
+        self.model = model
+        # Initialize probs, a dict of float's dicts.
+        self.probs = defaultdict(lambda: defaultdict(float))
+        self.sorted_probs = defaultdict(list)
+        # First count tokens appearances.
+        for k,v in self.model.counts.items():
+            if len(k) == (self.model.n):
+                self.probs[k[:-1]][k[-1]] = v
+
+        # Then calculate probability distribution from total appearences.
+        for key,value_dict in self.probs.items():
+            total_sum = sum(value_dict.values())
+            for sub_key in value_dict.keys():
+                value_dict[sub_key] = value_dict[sub_key] / total_sum
+            self.sorted_probs[key] = sorted(value_dict.items(),key=lambda x: x[1])
+
+    def generate_sent(self):
+        """Randomly generate a sentence."""
+
+    def generate_token(self, prev_tokens=None):
+        """Randomly generate a token, given prev_tokens.
+
+        prev_tokens -- the previous n-1 tokens (optional only if n = 1).
+        """
