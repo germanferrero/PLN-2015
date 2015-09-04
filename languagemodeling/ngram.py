@@ -2,6 +2,7 @@
 from collections import defaultdict
 from languagemodeling import constants
 from math import log
+import random
 
 class NGram(object):
 
@@ -84,13 +85,13 @@ class NGramGenerator:
         """
         model -- n-gram model.
         """
-        self.model = model
+        self.n = model.n
         # Initialize probs, a dict of float's dicts.
         self.probs = defaultdict(lambda: defaultdict(float))
         self.sorted_probs = defaultdict(list)
         # First count tokens appearances.
-        for k,v in self.model.counts.items():
-            if len(k) == (self.model.n):
+        for k,v in model.counts.items():
+            if len(k) == (self.n):
                 self.probs[k[:-1]][k[-1]] = v
 
         # Then calculate probability distribution from total appearences.
@@ -98,13 +99,32 @@ class NGramGenerator:
             total_sum = sum(value_dict.values())
             for sub_key in value_dict.keys():
                 value_dict[sub_key] = value_dict[sub_key] / total_sum
-            self.sorted_probs[key] = sorted(value_dict.items(),key=lambda x: x[1])
+            self.sorted_probs[key] = sorted(value_dict.items(),key=lambda x: (-x[1],x[0]))
 
     def generate_sent(self):
         """Randomly generate a sentence."""
+        # Init sent with begin sentence markers
+        sent = [constants.BEGIN_SENTENCE_MARKER] * (self.n - 1)
+        while True:
+            prev_tokens = tuple(sent[len(sent)-(self.n-1):])
+            print (prev_tokens)
+            next_token = self.generate_token(prev_tokens)
+            print (next_token)
+            if next_token == constants.END_SENTENCE_MARKER:
+                break
+            else:
+                sent += [next_token]
+        return sent[self.n-1:]
 
     def generate_token(self, prev_tokens=None):
         """Randomly generate a token, given prev_tokens.
 
         prev_tokens -- the previous n-1 tokens (optional only if n = 1).
         """
+        probs = self.sorted_probs[prev_tokens]
+        u = random.random()
+        cumulative = 0
+        for i in range(len(probs)):
+            cumulative += probs[i][1]
+            if u <= cumulative:
+                return probs[i][0]

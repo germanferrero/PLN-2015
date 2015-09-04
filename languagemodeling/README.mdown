@@ -11,7 +11,9 @@ ciencias políticas durante su doctorado.
 
 # Ejercicio 2
 
-## Count: 
+## Count:
++ Antes de contabilizar las apariciones a cada sentencia le agrego
+  n - 1 marcadores de inicio de oración y uno de fin de oración.
 + Al agregar los marcadores de inicio y fin de oración, 
 debí modificar el count del n-grama para que no contabilice 
 la aparición del inicio de oración.
@@ -30,3 +32,19 @@ para no generar una división por 0 en la probabilidad condicional del siguiente
 
 ## Sent prob log:
 + Simplemente devuelvo el logaritmo en base 2 de la probabilidad. Si la probablidad es 0, devuelvo el valor -inf de python.
+
+# Ejercicio 3
+
+## Inicialización
++ Para probs utilizo un defaultdict(lambda: defaultdict(float)). Esto es un diccionario de diccionarios de floats.
++ Para sorted_probs un defaultdict(list). Esto es un diccionario de listas.
++ Por cada item del diccionario counts que tenga una key de largo n, al diccionario en probs indexado por la tupla de los n-1 primeros elementos de la key le agrego una entrada (elemento n-esimo : valor de model.counts[key]).
+Así obtengo para cada sentencia de n-1 tokens un diccionario con las palabras que aparecen luego de esa sentencia y la cantidad de veces que aparece cada una.
++ Luego recorro cada uno de estos diccionarios y a cada elemento le cambio el valor a su probabilidad dada por la cantidad de veces que aparece esa palabra sobre el total de apariciones entre todas las palabras del diccionario.
+Además ya guardo este diccionario como una lista ordenada en sorted_probs.
+
+## Generate Token
++ Genero un numero aleatorio "u" (random.random()) y recorro la lista de sorted_probs para prev_tokens. Cuando el numero aleatorio u resulta <= prob acumulada, devuelvo el token indicado por dicha iteración.
+
+## Generate Sent
++ Inicializo la oración con n-1 marcadores de inicio de sesión y genero tokens a partir de los n-1 tokens de mi oración hasta que obtengo un marcador de fin de oración.
