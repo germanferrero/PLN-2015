@@ -107,9 +107,7 @@ class NGramGenerator:
         sent = [constants.BEGIN_SENTENCE_MARKER] * (self.n - 1)
         while True:
             prev_tokens = tuple(sent[len(sent)-(self.n-1):])
-            print (prev_tokens)
             next_token = self.generate_token(prev_tokens)
-            print (next_token)
             if next_token == constants.END_SENTENCE_MARKER:
                 break
             else:
