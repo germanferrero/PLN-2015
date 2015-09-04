@@ -49,8 +49,6 @@ class NGram(object):
         # assert len(prev_tokens) == n - 1
 
         tokens = prev_tokens + [token]
-        print (token)
-        print (tokens)
         return float(self.counts[tuple(tokens)]) / self.counts[tuple(prev_tokens)]
 
     def sent_prob(self, sent):
@@ -126,3 +124,35 @@ class NGramGenerator:
             cumulative += probs[i][1]
             if u <= cumulative:
                 return probs[i][0]
+
+
+class AddOneNGram(NGram):
+
+    def __init__(self,n,sents):
+        super(AddOneNGram, self).__init__(n,sents)
+
+        my_set = set()
+        for key,value in self.counts.items():
+            for token in key:
+                if token != constants.BEGIN_SENTENCE_MARKER:
+                    my_set.add(token)
+        self.v_size = len(my_set)
+
+
+    def cond_prob(self, token, prev_tokens=None):
+        """Conditional probability of a token.
+
+        token -- the token.
+        prev_tokens -- the previous n-1 tokens (optional only if n = 1).
+        """
+        n = self.n
+        if not prev_tokens:
+            prev_tokens = []
+
+        tokens = prev_tokens + [token]
+        return (float(self.counts[tuple(tokens)])  + 1)/ (self.counts[tuple(prev_tokens)] + self.V())
+
+    def V(self):
+        """Size of the vocabulary.
+        """
+        return self.v_size
