@@ -48,3 +48,21 @@ Además ya guardo este diccionario como una lista ordenada en sorted_probs.
 
 ## Generate Sent
 + Inicializo la oración con n-1 marcadores de inicio de sesión y genero tokens a partir de los n-1 tokens de mi oración hasta que obtengo un marcador de fin de oración.
+
+
+# Ejercicio 5
+
+## Resultados:
+Utilicé gutenber("austen-emma.txt"), 90% training, 10% test.
+
+### Model AddOneNGram unigrama:
+    Cross Entropy: -8.741343458528988
+    Perplexity: 427.96335492643317
+
+### Model AddOneNGram bigrama:
+    Cross Entropy: -9.184235746245667
+    Perplexity: 581.742036435503
+
+### Model AddOneNGram trigrama:
+    Cross Entropy: -9.624914012094338
+    Perplexity: 789.5648813437084

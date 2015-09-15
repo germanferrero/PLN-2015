@@ -26,14 +26,18 @@ if __name__ == '__main__':
     # load the data
     sents = gutenberg.sents('austen-emma.txt')
 
+    total_sents = len(sents)
+    n_training_sents = int(total_sents * (1/90))
+    sents = list(sents[:n_training_sents])
+
     # train the model
     n = int(opts['-n'])
 
     m = opts['-m']
     if m == 'addone':
-      model = AddOneNGram(n,sents)
+        model = AddOneNGram(n, sents)
     else:
-      model = NGram(n, sents)
+        model = NGram(n, sents)
 
     # save it
     filename = opts['-o']

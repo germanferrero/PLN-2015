@@ -1,2 +1,2 @@
-BEGIN_SENTENCE_MARKER = '<s>'
-END_SENTENCE_MARKER = '</s>'
+BEGIN = '<s>'
+END = '</s>'

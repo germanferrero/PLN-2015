@@ -1,8 +1,9 @@
 # https://docs.python.org/3/library/collections.html
 from collections import defaultdict
-from languagemodeling import constants
+from languagemodeling.constants import BEGIN, END
 from math import log
 import random
+
 
 class NGram(object):
 
@@ -14,24 +15,23 @@ class NGram(object):
         assert n > 0
         self.n = n
         self.counts = counts = defaultdict(int)
-        begin_sentence_list = [constants.BEGIN_SENTENCE_MARKER] * (n-1)
+        begin_sentence_list = [BEGIN] * (n-1)
         for sent in sents:
             # Insert sentence markers.
             sent = begin_sentence_list + sent
-            sent.append(constants.END_SENTENCE_MARKER)
+            sent.append(END)
             for i in range(len(sent) - n + 1):
                 ngram = tuple(sent[i: i + n])
-                if ngram != (constants.BEGIN_SENTENCE_MARKER,):
+                if ngram != (BEGIN,):
                     counts[ngram] += 1
                     counts[ngram[:-1]] += 1
-
 
     def count(self, tokens):
         """Count for an n-gram or (n-1)-gram.
 
         tokens -- the n-gram or (n-1)-gram tuple.
         """
-        assert isinstance(tokens,tuple)
+        assert isinstance(tokens, tuple)
         assert len(tokens) <= self.n
 
         return self.counts[tokens]
@@ -43,7 +43,6 @@ class NGram(object):
         prev_tokens -- the previous n-1 tokens (optional only if n = 1).
         """
 
-        n = self.n
         if not prev_tokens:
             prev_tokens = []
         # assert len(prev_tokens) == n - 1
@@ -57,13 +56,11 @@ class NGram(object):
         sent -- the sentence as a list of tokens.
         """
         prob = 1
-        my_sent = ([constants.BEGIN_SENTENCE_MARKER] * (self.n - 1)) + sent
-        my_sent.append(constants.END_SENTENCE_MARKER)
-        for i in range(self.n-1,len(my_sent)):
-            token = my_sent[i]
-            prob *= self.cond_prob(my_sent[i],my_sent[i-(self.n-1):i])
+        my_sent = ([BEGIN] * (self.n - 1)) + sent
+        my_sent.append(END)
+        for i in range(self.n-1, len(my_sent)):
+            prob *= self.cond_prob(my_sent[i], my_sent[i-(self.n-1):i])
             if prob == 0:
-                print (prob)
                 break
         return prob
 
@@ -72,10 +69,30 @@ class NGram(object):
 
         sent -- the sentence as a list of tokens.
         """
-        prob = self.sent_prob(sent)
-        if prob == 0:
-            return float('-inf')
-        return log(self.sent_prob(sent),2)
+        prob = 0.0
+        my_sent = ([BEGIN] * (self.n - 1)) + sent
+        my_sent.append(END)
+        for i in range(self.n-1, len(my_sent)):
+            sent_prob = self.cond_prob(my_sent[i], my_sent[i-(self.n-1):i])
+            if sent_prob == 0:
+                return float('-inf')
+            else:
+                prob += log(sent_prob, 2)
+        return prob
+
+    def cross_entropy(self, sents):
+        prob = 0.0
+        M = 0
+        for sent in sents:
+            M += len(sent)
+            sent_prob = self.sent_log_prob(sent)
+            prob += sent_prob
+        return prob / M
+
+    def perplexity(self, sents):
+        cross_entropy = self.cross_entropy(sents)
+        return 2**(-cross_entropy)
+
 
 class NGramGenerator:
 
@@ -88,25 +105,25 @@ class NGramGenerator:
         self.probs = defaultdict(lambda: defaultdict(float))
         self.sorted_probs = defaultdict(list)
         # First count tokens appearances.
-        for k,v in model.counts.items():
+        for k, v in model.counts.items():
             if len(k) == (self.n):
                 self.probs[k[:-1]][k[-1]] = v
 
         # Then calculate probability distribution from total appearences.
-        for key,value_dict in self.probs.items():
+        for key, value_dict in self.probs.items():
             total_sum = sum(value_dict.values())
             for sub_key in value_dict.keys():
                 value_dict[sub_key] = value_dict[sub_key] / total_sum
-            self.sorted_probs[key] = sorted(value_dict.items(),key=lambda x: (-x[1],x[0]))
+            self.sorted_probs[key] = sorted(value_dict.items(), key=lambda x: (-x[1], x[0]))
 
     def generate_sent(self):
         """Randomly generate a sentence."""
         # Init sent with begin sentence markers
-        sent = [constants.BEGIN_SENTENCE_MARKER] * (self.n - 1)
+        sent = [BEGIN] * (self.n - 1)
         while True:
             prev_tokens = tuple(sent[len(sent)-(self.n-1):])
             next_token = self.generate_token(prev_tokens)
-            if next_token == constants.END_SENTENCE_MARKER:
+            if next_token == END:
                 break
             else:
                 sent += [next_token]
@@ -128,16 +145,15 @@ class NGramGenerator:
 
 class AddOneNGram(NGram):
 
-    def __init__(self,n,sents):
-        super(AddOneNGram, self).__init__(n,sents)
+    def __init__(self, n, sents):
+        super(AddOneNGram, self).__init__(n, sents)
 
         my_set = set()
-        for key,value in self.counts.items():
+        for key, value in self.counts.items():
             for token in key:
-                if token != constants.BEGIN_SENTENCE_MARKER:
+                if token != BEGIN:
                     my_set.add(token)
         self.v_size = len(my_set)
-
 
     def cond_prob(self, token, prev_tokens=None):
         """Conditional probability of a token.
@@ -145,14 +161,24 @@ class AddOneNGram(NGram):
         token -- the token.
         prev_tokens -- the previous n-1 tokens (optional only if n = 1).
         """
-        n = self.n
         if not prev_tokens:
             prev_tokens = []
 
         tokens = prev_tokens + [token]
-        return (float(self.counts[tuple(tokens)])  + 1)/ (self.counts[tuple(prev_tokens)] + self.V())
+        return (float(self.counts[tuple(tokens)]) + 1) / (self.counts[tuple(prev_tokens)] + self.V())
 
     def V(self):
         """Size of the vocabulary.
         """
         return self.v_size
+
+class InterpolatedNGram(NGram):
+
+    def __init__(self, n, sents, gamma=None, addone=True):
+        """
+        n -- order of the model.
+        sents -- list of sentences, each one being a list of tokens.
+        gamma -- interpolation hyper-parameter (if not given, estimate using
+            held-out data).
+        addone -- whether to use addone smoothing (default: True).
+        """
