@@ -86,11 +86,11 @@ class NGram(object):
             M += len(sent)
             sent_prob = self.sent_log_prob(sent)
             prob += sent_prob
-        return prob / M
+        return - (prob / M)
 
     def perplexity(self, sents):
         cross_entropy = self.cross_entropy(sents)
-        return 2**(-cross_entropy)
+        return 2**(cross_entropy)
 
 
 class NGramGenerator:
@@ -164,7 +164,7 @@ class AddOneNGram(NGram):
             prev_tokens = []
 
         tokens = prev_tokens + [token]
-        return (float(self.counts[tuple(tokens)]) + 1) / (self.counts[tuple(prev_tokens)] + self.V())
+        return (float((self.counts[tuple(tokens)]) + 1) / (self.counts[tuple(prev_tokens)] + self.V()))
 
     def V(self):
         """Size of the vocabulary.
@@ -183,28 +183,43 @@ class InterpolatedNGram(AddOneNGram):
         addone -- whether to use addone smoothing (default: True).
         """
 
-        self.addone = addone
+        # If gamma is not provided, separate sents for development data.
         if not gamma:
             total_sents = len(sents)
             n_training_sents = int(total_sents * (0.9))
             self.held_out_sents = list(sents[-(total_sents-n_training_sents):])
             # Override sents with training sents
             sents = list(sents[:n_training_sents])
-            self.gamma = 100
-        else:
-            self.gamma = gamma
 
         super(InterpolatedNGram, self).__init__(n, sents)
 
+        self.addone = addone
+
+        # all_counts will keep a different count dict for each k-gram model count used
+        # for k=1 to k=n
         self.all_counts = []
         for i in range(n-1):
-            ngram = NGram(1, sents)
+            ngram = NGram(i+1, sents)
             self.all_counts.append(ngram.counts)
 
         self.all_counts.append(self.counts)
 
-    # def estimate_gamma(self):
-        # return 100
+        # Finally estimate gamma from held out data.
+        if not gamma:
+            self.estimate_gamma()
+        else:
+            self.gamma = gamma
+
+    def estimate_gamma(self):
+        gamma = 10
+        perplexities = []
+        for i in range(20):
+            self.gamma = gamma
+            perplexity = self.perplexity(self.held_out_sents)
+            perplexities.append((gamma, perplexity))
+            gamma += 100
+        # Take gamma that generate best (lower) perplexity
+        self.gamma = min(perplexities, key=lambda x: x[1])[0]
 
     def ML_cond_prob(self, token, prev_tokens=None):
         if not prev_tokens:
@@ -213,10 +228,12 @@ class InterpolatedNGram(AddOneNGram):
         n = len(prev_tokens)
 
         tokens = prev_tokens + [token]
-        if self.addone:
-            result = float((self.all_counts[n][tuple(tokens)] + 1) / (self.all_counts[n][tuple(prev_tokens)] + self.V()))
+        if self.addone and n == 0:
+            result = float((self.all_counts[n][tuple(tokens)] + 1)
+                           / (self.all_counts[n][tuple(prev_tokens)] + self.V()))
         else:
-            result = float(self.all_counts[n][tuple(tokens)] / (self.all_counts[n][tuple(prev_tokens)]))
+            result = float(self.all_counts[n][tuple(tokens)]
+                           / (self.all_counts[n][tuple(prev_tokens)]))
         return result
 
     def get_lambdas(self, gamma, tokens):

@@ -27,7 +27,7 @@ if __name__ == '__main__':
     sents = gutenberg.sents('austen-emma.txt')
 
     total_sents = len(sents)
-    n_training_sents = int(total_sents * (1/90))
+    n_training_sents = int(total_sents * (0.9))
     sents = list(sents[:n_training_sents])
 
     # train the model
