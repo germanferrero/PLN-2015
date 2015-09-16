@@ -17,14 +17,13 @@ class NGram(object):
         self.counts = counts = defaultdict(int)
         begin_sentence_list = [BEGIN] * (n-1)
         for sent in sents:
-            # Insert sentence markers.
-            sent = begin_sentence_list + sent
-            sent.append(END)
+            # Insert sentence BEGIN and END markers.
+            sent = begin_sentence_list + sent + [END]
+
             for i in range(len(sent) - n + 1):
                 ngram = tuple(sent[i: i + n])
-                if ngram != (BEGIN,):
-                    counts[ngram] += 1
-                    counts[ngram[:-1]] += 1
+                counts[ngram] += 1
+                counts[ngram[:-1]] += 1
 
     def count(self, tokens):
         """Count for an n-gram or (n-1)-gram.
@@ -172,7 +171,8 @@ class AddOneNGram(NGram):
         """
         return self.v_size
 
-class InterpolatedNGram(NGram):
+
+class InterpolatedNGram(AddOneNGram):
 
     def __init__(self, n, sents, gamma=None, addone=True):
         """
@@ -182,3 +182,76 @@ class InterpolatedNGram(NGram):
             held-out data).
         addone -- whether to use addone smoothing (default: True).
         """
+
+        self.addone = addone
+        if not gamma:
+            total_sents = len(sents)
+            n_training_sents = int(total_sents * (0.9))
+            self.held_out_sents = list(sents[-(total_sents-n_training_sents):])
+            # Override sents with training sents
+            sents = list(sents[:n_training_sents])
+            self.gamma = 100
+        else:
+            self.gamma = gamma
+
+        super(InterpolatedNGram, self).__init__(n, sents)
+
+        self.all_counts = []
+        for i in range(n-1):
+            ngram = NGram(1, sents)
+            self.all_counts.append(ngram.counts)
+
+        self.all_counts.append(self.counts)
+
+    # def estimate_gamma(self):
+        # return 100
+
+    def ML_cond_prob(self, token, prev_tokens=None):
+        if not prev_tokens:
+            prev_tokens = []
+        # assert len(prev_tokens) == n - 1
+        n = len(prev_tokens)
+
+        tokens = prev_tokens + [token]
+        if self.addone:
+            result = float((self.all_counts[n][tuple(tokens)] + 1) / (self.all_counts[n][tuple(prev_tokens)] + self.V()))
+        else:
+            result = float(self.all_counts[n][tuple(tokens)] / (self.all_counts[n][tuple(prev_tokens)]))
+        return result
+
+    def get_lambdas(self, gamma, tokens):
+        lambdas = []
+        for i in range(self.n-1):
+            # Note here that we use ( self.n - i ) - 1 because
+            # it give as de {self.n - i}-gram counts dict.
+            count = self.all_counts[(self.n-i)-1][tuple(tokens[i:])]
+            lambda_i = count / (count + gamma)
+            lambda_i *= 1 - sum(lambdas)
+            lambdas.append(lambda_i)
+        lambdas.append(1 - sum(lambdas))
+        return lambdas
+
+    def cond_prob(self, token, prev_tokens=None):
+        if not prev_tokens:
+            prev_tokens = []
+        lambdas = self.get_lambdas(self.gamma, prev_tokens)
+        prob = 0
+        for i in range(self.n):
+            if lambdas[i] != 0:
+                prob += lambdas[i] * self.ML_cond_prob(token, prev_tokens[i:])
+        return prob
+
+    def count(self, tokens):
+        """Count for an n-gram or (n-1)-gram.
+
+        tokens -- the n-gram or (n-1)-gram tuple.
+        """
+        assert isinstance(tokens, tuple)
+        assert len(tokens) <= self.n
+
+        if len(tokens) == 0:
+            i = 1
+        else:
+            i = len(tokens)
+        count = self.all_counts[i-1][tokens]
+        return count
