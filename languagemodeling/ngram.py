@@ -3,51 +3,37 @@ from collections import defaultdict
 from languagemodeling.constants import BEGIN, END
 from math import log
 import random
+import abc
 
 
-class NGram(object):
+class LangModel(object):
+    __metaclass__ = abc.ABCMeta
 
     def __init__(self, n, sents):
-        """
-        n -- order of the model.
-        sents -- list of sentences, each one being a list of tokens.
-        """
-        assert n > 0
         self.n = n
-        self.counts = counts = defaultdict(int)
-        begin_sentence_list = [BEGIN] * (n-1)
+        my_set = set()
         for sent in sents:
-            # Insert sentence BEGIN and END markers.
-            sent = begin_sentence_list + sent + [END]
+            for token in sent:
+                if token != BEGIN:
+                    my_set.add(token)
+        # We also count END token for out Vocabulary size
+        self.v_size = len(my_set) + 1
 
-            for i in range(len(sent) - n + 1):
-                ngram = tuple(sent[i: i + n])
-                counts[ngram] += 1
-                counts[ngram[:-1]] += 1
-
+    @abc.abstractmethod
     def count(self, tokens):
-        """Count for an n-gram or (n-1)-gram.
-
-        tokens -- the n-gram or (n-1)-gram tuple.
         """
-        assert isinstance(tokens, tuple)
-        assert len(tokens) <= self.n
+        Count for a k-gram
+        """
+        return
 
-        return self.counts[tokens]
-
+    @abc.abstractmethod
     def cond_prob(self, token, prev_tokens=None):
         """Conditional probability of a token.
 
         token -- the token.
         prev_tokens -- the previous n-1 tokens (optional only if n = 1).
         """
-
-        if not prev_tokens:
-            prev_tokens = []
-        # assert len(prev_tokens) == n - 1
-
-        tokens = prev_tokens + [token]
-        return float(self.counts[tuple(tokens)]) / self.counts[tuple(prev_tokens)]
+        return
 
     def sent_prob(self, sent):
         """Probability of a sentence. Warning: subject to underflow problems.
@@ -91,6 +77,61 @@ class NGram(object):
     def perplexity(self, sents):
         cross_entropy = self.cross_entropy(sents)
         return 2**(cross_entropy)
+
+    def V(self):
+        """Size of the vocabulary.
+        """
+        return self.v_size
+
+    def _get_count_dict_for_n(self, n, sents):
+        counts = defaultdict(int)
+        begin_sentence_list = [BEGIN] * (n-1)
+        for sent in sents:
+            # Insert sentence BEGIN and END markers.
+            sent = begin_sentence_list + sent + [END]
+
+            for i in range(len(sent) - n + 1):
+                ngram = tuple(sent[i: i + n])
+                counts[ngram] += 1
+                counts[ngram[:-1]] += 1
+        return counts
+
+
+class NGram(LangModel):
+
+    def __init__(self, n, sents):
+        """
+        n -- order of the model.
+        sents -- list of sentences, each one being a list of tokens.
+        """
+        assert n > 0
+        super(NGram, self).__init__(n, sents)
+        self.counts = self._get_count_dict_for_n(n, sents)
+
+    def count(self, tokens):
+        """Count for an n-gram or (n-1)-gram.
+
+        tokens -- the n-gram or (n-1)-gram tuple.
+        """
+        assert isinstance(tokens, tuple)
+        assert len(tokens) <= self.n
+
+        return self.counts[tokens]
+
+    def cond_prob(self, token, prev_tokens=None):
+        """Conditional probability of a token.
+
+        token -- the token.
+        prev_tokens -- the previous n-1 tokens (optional only if n = 1).
+        """
+
+        if not prev_tokens:
+            prev_tokens = []
+        # assert len(prev_tokens) == n - 1
+
+        tokens = prev_tokens + [token]
+        return float(self.counts[tuple(tokens)]) / self.counts[tuple(prev_tokens)]
+
 
 
 class NGramGenerator:
@@ -147,13 +188,6 @@ class AddOneNGram(NGram):
     def __init__(self, n, sents):
         super(AddOneNGram, self).__init__(n, sents)
 
-        my_set = set()
-        for key, value in self.counts.items():
-            for token in key:
-                if token != BEGIN:
-                    my_set.add(token)
-        self.v_size = len(my_set)
-
     def cond_prob(self, token, prev_tokens=None):
         """Conditional probability of a token.
 
@@ -166,13 +200,9 @@ class AddOneNGram(NGram):
         tokens = prev_tokens + [token]
         return (float((self.counts[tuple(tokens)]) + 1) / (self.counts[tuple(prev_tokens)] + self.V()))
 
-    def V(self):
-        """Size of the vocabulary.
-        """
-        return self.v_size
 
 
-class InterpolatedNGram(AddOneNGram):
+class InterpolatedNGram(LangModel):
 
     def __init__(self, n, sents, gamma=None, addone=True):
         """
@@ -195,16 +225,15 @@ class InterpolatedNGram(AddOneNGram):
 
         self.addone = addone
 
-        # all_counts will keep a different count dict for each k-gram model count used
+        # all_counts will keep a different count dicts for each k-gram model count
         # for k=1 to k=n
         self.all_counts = []
-        for i in range(n-1):
-            ngram = NGram(i+1, sents)
-            self.all_counts.append(ngram.counts)
-
-        self.all_counts.append(self.counts)
+        for i in range(1,n+1):
+            counts = self._get_count_dict_for_n(i,sents);
+            self.all_counts.append(counts)
 
         # Finally estimate gamma from held out data.
+        # or get it from params.
         if not gamma:
             self.estimate_gamma()
         else:

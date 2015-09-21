@@ -66,3 +66,15 @@ Utilicé gutenber("austen-emma.txt"), 90% training, 10% test.
 ### Model AddOneNGram trigrama:
     Cross Entropy: -9.624914012094338
     Perplexity: 789.5648813437084
+
+
+# Clase abstracta LangModel y herencia.
+Luego de haber implementado NGramInterpolated, refactoricé la herencia de clases.
+NGramInterpolated eran subclase de NGram, pero esa herencia no
+tenía sentido. Ya que un n-grama interpolado no comparte con Ngram el diccionario
+"counts" y por ende tampoco el método count(). Finalmente cree una clase abstracta
+LangModel de la cual heredan las demás clases que son modelos de lenguajes. En LangModel
+concentré la funcionalidad nucleo de todos los modelos de lenguaje, y definí dos métodos
+abstractos: cond_prob y count. Los cuales deben ser implementados por una clase que herede
+de LangModel.
+Como un bonus LangModel posee un método protegido para construir un diccionario de "count" de tokens dado un "n" en particular.
