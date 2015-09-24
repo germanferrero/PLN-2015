@@ -393,11 +393,7 @@ class BackOffNGram(LangModel):
         """
         tokens = tuple(tokens)
 
-        alpha = 0
-        try:
-            alpha = self.beta * len(self.As[tokens]) / self.count(tokens)
-        except:
-            print (tokens)
+        alpha = self.beta * len(self.As[tokens]) / self.count(tokens)
         return alpha
 
     def denom(self, tokens):
@@ -429,23 +425,24 @@ class BackOffNGram(LangModel):
         tokens = prev_tokens + (token,)
 
         if self.addone and len(prev_tokens) == 0:
-            result = float((self.count(tokens) + 1)
-                           / (self.count(prev_tokens) + self.V()))
+            result = (float(self.count(tokens) + 1)
+                      / (self.count(prev_tokens) + self.V()))
         else:
-            result = float(self.count(tokens)
-                           / self.count(prev_tokens))
+            result = (float(self.count(tokens))
+                      / self.count(prev_tokens))
         return result
 
     def cond_prob(self, token, prev_tokens=None):
         if not prev_tokens:
             prev_tokens = ()
-        tokens = tuple(prev_tokens) + (token,)
+        # tokens = tuple(prev_tokens) + (token,)
 
-        if self.count(tokens) > 0:
-            result = (self.count(prev_tokens) - self.beta) / self.count(tokens)
+        if len(prev_tokens) == 0:
+            result = self.ML_cond_prob(token, prev_tokens)
         else:
-            if len(prev_tokens) == 0:
-                result = self.ML_cond_prob(token, prev_tokens)
+            A = self.As[tuple(prev_tokens)]
+            if token in A:
+                result = (self.count(prev_tokens) - self.beta) / self.count(prev_tokens)
             else:
                 result = (self.alpha(prev_tokens) * self.cond_prob(token, prev_tokens[1:]) / self.denom(prev_tokens))
         return result
