@@ -357,6 +357,8 @@ class BackOffNGram(LangModel):
         perplexities = []
         for i in range(9):
             self.beta = beta
+            self.trainAs()
+            self.trainDenoms()
             perplexity = self.perplexity(self.held_out_sents)
             perplexities.append((beta, perplexity))
             beta += 0.1
@@ -435,16 +437,20 @@ class BackOffNGram(LangModel):
     def cond_prob(self, token, prev_tokens=None):
         if not prev_tokens:
             prev_tokens = ()
-        # tokens = tuple(prev_tokens) + (token,)
+        tokens = tuple(prev_tokens) + (token,)
 
         if len(prev_tokens) == 0:
             result = self.ML_cond_prob(token, prev_tokens)
         else:
             A = self.As[tuple(prev_tokens)]
             if token in A:
-                result = (self.count(prev_tokens) - self.beta) / self.count(prev_tokens)
+                result = (self.count(tokens) - self.beta) / self.count(prev_tokens)
             else:
-                result = (self.alpha(prev_tokens) * self.cond_prob(token, prev_tokens[1:]) / self.denom(prev_tokens))
+                cond_prob = self.cond_prob(token, prev_tokens[1:])
+                if cond_prob != 0:
+                    result = (self.alpha(prev_tokens) * cond_prob / self.denom(prev_tokens))
+                else:
+                    result = 0
         return result
 
 
