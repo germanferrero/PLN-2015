@@ -228,8 +228,8 @@ class InterpolatedNGram(LangModel):
         # all_counts will keep a different count dicts for each k-gram model count
         # for k=1 to k=n
         self.all_counts = []
-        for i in range(1,n+1):
-            counts = self._get_count_dict_for_n(i,sents);
+        for i in range(1, n+1):
+            counts = self._get_count_dict_for_n(i, sents)
             self.all_counts.append(counts)
 
         # Finally estimate gamma from held out data.
@@ -300,4 +300,166 @@ class InterpolatedNGram(LangModel):
         else:
             i = len(tokens)
         count = self.all_counts[i-1][tokens]
+        return count
+
+
+class BackOffNGram(LangModel):
+    def __init__(self, n, sents, beta=None, addone=True):
+        """
+        Back-off NGram model with discounting as described by Michael Collins.
+
+        n -- order of the model.
+        sents -- list of sentences, each one being a list of tokens.
+        beta -- discounting hyper-parameter (if not given, estimate using
+            held-out data).
+        addone -- whether to use addone smoothing (default: True).
+        """
+
+        # If beta is not provided, separate sents for development data.
+        if beta is None:
+            total_sents = len(sents)
+            n_training_sents = int(total_sents * (0.9))
+            self.held_out_sents = list(sents[-(total_sents-n_training_sents):])
+            # Override sents with training sents
+            sents = list(sents[:n_training_sents])
+
+        super(BackOffNGram, self).__init__(n, sents)
+
+        self.addone = addone
+        # all_counts will keep a different count dicts for each k-gram model count
+        # for k=1 to k=n
+        self.counts = defaultdict(int)
+        for i in range(1, n+1):
+            begin_sentence_list = [BEGIN] * (i-1)
+            for sent in sents:
+                # Insert sentence BEGIN and END markers.
+                sent = begin_sentence_list + sent + [END]
+                if i != 1:
+                    self.counts[tuple(begin_sentence_list)] += 1
+                for j in range(len(sent) - i + 1):
+                    ngram = tuple(sent[j: j + i])
+                    self.counts[ngram] += 1
+                    if(i == 1):
+                        self.counts[ngram[:-1]] += 1
+
+        # Finally estimate beta from held out data.
+        # or get it from params.
+        if beta is None:
+            self.estimate_beta()
+        else:
+            self.beta = beta
+
+        self.trainAs()
+        self.trainDenoms()
+
+    def estimate_beta(self):
+        beta = 0.1
+        perplexities = []
+        for i in range(9):
+            self.beta = beta
+            perplexity = self.perplexity(self.held_out_sents)
+            perplexities.append((beta, perplexity))
+            beta += 0.1
+        # Take beta that generate best (lower) perplexity
+        self.beta = min(perplexities, key=lambda x: x[1])[0]
+
+    def trainAs(self):
+        self.As = defaultdict(set)
+        for tokens in self.counts.keys():
+            if tokens != (()):
+                self.As[tokens[:-1]].add(tokens[-1])
+
+    def trainDenoms(self):
+        self.denoms = defaultdict(float)
+        for tokens in self.counts.keys():
+            sum_probs = 0
+            for token in self.As[tokens]:
+                sum_probs += self.cond_prob(token, tokens[1:])
+            self.denoms[tokens] = 1 - sum_probs
+
+    def A(self, tokens):
+        """Set of words with counts > 0 for a k-gram with 0 < k < n.
+
+        tokens -- the k-gram tuple.
+        """
+        tokens = tuple(tokens)
+
+        return self.As[tokens]
+
+    def alpha(self, tokens):
+        """Missing probability mass for a k-gram with 0 < k < n.
+
+        tokens -- the k-gram tuple.
+        """
+        tokens = tuple(tokens)
+
+        alpha = 0
+        try:
+            alpha = self.beta * len(self.As[tokens]) / self.count(tokens)
+        except:
+            print (tokens)
+        return alpha
+
+    def denom(self, tokens):
+        """Normalization factor for a k-gram with 0 < k < n.
+
+        tokens -- the k-gram tuple.
+        """
+        tokens = tuple(tokens)
+        return self.denoms[tokens]
+
+    def count(self, tokens):
+        """Count for an n-gram or (n-1)-gram.
+
+        tokens -- the n-gram or (n-1)-gram tuple.
+        """
+        tokens = tuple(tokens)
+        assert len(tokens) <= self.n
+
+        count = self.counts.get(tokens)
+        if not count:
+            count = 0
+        return count
+
+    def ML_cond_prob(self, token, prev_tokens=None):
+        if not prev_tokens:
+            prev_tokens = ()
+
+        prev_tokens = tuple(prev_tokens)
+        tokens = prev_tokens + (token,)
+
+        if self.addone and len(prev_tokens) == 0:
+            result = float((self.count(tokens) + 1)
+                           / (self.count(prev_tokens) + self.V()))
+        else:
+            result = float(self.count(tokens)
+                           / self.count(prev_tokens))
+        return result
+
+    def cond_prob(self, token, prev_tokens=None):
+        if not prev_tokens:
+            prev_tokens = ()
+        tokens = tuple(prev_tokens) + (token,)
+
+        if self.count(tokens) > 0:
+            result = (self.count(prev_tokens) - self.beta) / self.count(tokens)
+        else:
+            if len(prev_tokens) == 0:
+                result = self.ML_cond_prob(token, prev_tokens)
+            else:
+                result = (self.alpha(prev_tokens) * self.cond_prob(token, prev_tokens[1:]) / self.denom(prev_tokens))
+        return result
+
+
+    def count(self, tokens):
+        """Count for an n-gram or (n-1)-gram.
+
+        tokens -- the n-gram or (n-1)-gram tuple.
+        """
+        tokens = tuple(tokens)
+        assert len(tokens) <= self.n
+
+        count = self.counts.get(tokens)
+        if not count:
+            count = 0
         return count
