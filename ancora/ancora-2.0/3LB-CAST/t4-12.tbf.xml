@@ -1,0 +1,929 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- 
+
+  ancora-2.0
+       
+			Copyright (C) 2007, 2008, 2009, 2010, 2011 UB - CLiC
+			Centre de Llenguatge i Computació - Universitat de Barcelona
+ 
+  This file is part of ancora-2.0.
+ 
+  ancora-2.0 is free software and data: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published
+  by the Free Software Foundation, either version 3 of the License,
+  or (at your option) any later version.
+
+  ancora-2.0 is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with ancora-2.0.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+ 
+  Check a text in catalan explaining the terms of the license at http://www.softcatala.cat/wiki/GPL3.
+  In spanish at http://www.viti.es/gnu/licenses/gpl.html
+ 
+
+  The following paper must be cited when using this corpus:
+
+ * Taulé, M., M.A. Martí, M. Recasens (2008) 'Ancora: Multilevel Annotated Corpora for Catalan and Spanish',
+   Proceedings of 6th International Conference on Language Resources and Evaluation. Marrakesh (Morocco).
+
+  In addition, the following paper must be cited if coreference information (attributes entity, coreftype,
+  corefsubtype, homophoricDD or entityref) is used:
+
+ * Recasens, Marta, M. Antònia Martí (2010) ‘AnCora-CO: Coreferentially annotated corpora for Spanish and
+   Catalan’. Language Resources and Evaluation, Springer Science.
+
+  Additionally, the following paper must be cited when argumental attributes in "sn" or "grup.nom"
+  (attributes func, arg, tem or lexicalid) are used:
+
+ * Peris, Aina, Mariona Taulé, Horacio Rodríguez (2010) ‘Semantic Annotation of Deverbal Nominalizations in the
+   Spanish AnCora corpus’. Treebanks and Linguistic Theories (TLT-2010), Estonia.
+-->
+<article lng="es">
+  <sentence>
+    <sadv arg="argM" func="cc" tem="tmp">
+      <grup.adv>
+        <r lem="antes" pos="rg" wd="Antes"/>
+        <sp>
+          <prep>
+            <s lem="de" pos="sps00" postype="preposition" wd="de"/>
+          </prep>
+          <sn>
+            <grup.nom gen="m" num="p">
+              <p gen="m" lem="él" num="p" person="3" pos="pp3mp000" postype="personal" wd="ellos"/>
+            </grup.nom>
+          </sn>
+        </sp>
+      </grup.adv>
+    </sadv>
+    <sn arg="arg1" func="suj" tem="tem">
+      <spec gen="m" num="p">
+        <d gen="m" lem="el" num="p" pos="da0mp0" postype="article" wd="los"/>
+      </spec>
+      <grup.nom gen="m" num="p">
+        <s.a gen="m" num="p">
+          <grup.a gen="m" num="p">
+            <a gen="c" lem="mejor" num="p" pos="aq0cp0" postype="qualificative" wd="mejores"/>
+          </grup.a>
+        </s.a>
+        <n gen="m" lem="guerrero" num="p" pos="ncmp000" postype="common" sense="16:07674205" wd="guerreros"/>
+        <sp>
+          <prep>
+            <s contracted="yes" gen="m" lem="del" num="s" pos="spcms" postype="preposition" wd="del"/>
+          </prep>
+          <sn>
+            <grup.nom gen="m" num="s">
+              <n gen="m" lem="mundo" num="s" pos="ncms000" postype="common" sense="16:06753779" wd="mundo"/>
+            </grup.nom>
+          </sn>
+        </sp>
+        <sn entityref="ne" ne="person">
+          <f lem="," pos="fc" punct="comma" wd=","/>
+          <spec gen="m" num="p">
+            <d gen="m" lem="el" num="p" pos="da0mp0" postype="article" wd="los"/>
+          </spec>
+          <grup.nom gen="m" num="p">
+            <n gen="m" lem="huno" num="p" pos="ncmp000" postype="common" sense="16:07330469" wd="hunos"/>
+          </grup.nom>
+        </sn>
+      </grup.nom>
+    </sn>
+    <sp arg="argM" func="cc" tem="adv">
+      <prep>
+        <s lem="con" pos="sps00" postype="preposition" wd="con"/>
+      </prep>
+      <sn>
+        <spec gen="m" num="p">
+          <d gen="c" lem="dos" num="p" pos="dn0cp0" postype="numeral" wd="dos"/>
+        </spec>
+        <grup.nom gen="m" num="p">
+          <n gen="m" lem="cuerno" num="p" pos="ncmp000" postype="common" sense="16:00869086" wd="cuernos"/>
+        </grup.nom>
+      </sn>
+    </sp>
+    <grup.verb>
+      <v lem="tener" lss="C21.state-attributive" mood="indicative" num="p" person="3" pos="vmii3p0" postype="main" tense="imperfect" wd="tenían"/>
+    </grup.verb>
+    <sadv arg="arg2" func="cd" functype="quantitative" tem="atr">
+      <grup.adv>
+        <r lem="bastante" pos="rg" wd="bastante"/>
+      </grup.adv>
+    </sadv>
+    <f lem="." pos="fp" punct="period" wd="."/>
+  </sentence>
+  <sentence>
+    <sn arg="arg0" elliptic="yes" func="suj" tem="agt"/>
+    <grup.verb>
+      <v lem="haber" mood="indicative" num="s" person="1" pos="vaip1s0" postype="auxiliary" tense="present" wd="He"/>
+      <v gen="m" lem="escribir" lss="A21.transitive-agentive-patient" mood="participle" num="s" pos="vmp00sm" postype="main" wd="escrito"/>
+    </grup.verb>
+    <sn arg="arg1" func="cd" tem="pat">
+      <spec gen="f" num="p">
+        <d gen="f" lem="alguno" num="p" pos="di0fp0" postype="indefinite" wd="algunas"/>
+      </spec>
+      <grup.nom gen="f" num="p">
+        <n gen="f" lem="tontería" num="p" pos="ncfp000" postype="common" sense="16:00810350" wd="tonterías"/>
+      </grup.nom>
+    </sn>
+    <f lem="." pos="fp" punct="period" wd="."/>
+  </sentence>
+  <sentence>
+    <sn arg="arg1" func="suj" tem="tem">
+      <spec gen="f" num="s">
+        <d gen="f" lem="el" num="s" pos="da0fs0" postype="article" wd="La"/>
+      </spec>
+      <grup.nom gen="f" num="s">
+        <s.a gen="f" num="s">
+          <spec>
+            <r lem="más" pos="rg" wd="más"/>
+          </spec>
+          <grup.a gen="f" num="s">
+            <a gen="c" lem="transcendente" num="s" pos="aq0cs0" postype="qualificative" wd="transcendente"/>
+          </grup.a>
+        </s.a>
+      </grup.nom>
+    </sn>
+    <grup.verb>
+      <v lem="ser" lss="C21.state-attributive" mood="indicative" num="s" person="3" pos="vsip3s0" postype="semiauxiliary" tense="present" wd="es"/>
+    </grup.verb>
+    <sn arg="arg2" coord="yes" func="atr" tem="atr">
+      <sn>
+        <spec gen="f" num="s">
+          <d gen="f" lem="el" num="s" pos="da0fs0" postype="article" wd="la"/>
+        </spec>
+        <grup.nom gen="f" num="s">
+          <sp>
+            <prep>
+              <s lem="de" pos="sps00" postype="preposition" wd="de"/>
+            </prep>
+            <sn entityref="ne" ne="person">
+              <grup.nom>
+                <n lem="Bellerofón" ne="person" pos="np0000p" postype="proper" sense="16:cs1" wd="Bellerofón"/>
+              </grup.nom>
+            </sn>
+          </sp>
+        </grup.nom>
+      </sn>
+      <conj conjunctiontype="coordinating">
+        <c lem="y" pos="cc" postype="coordinating" wd="y"/>
+      </conj>
+      <sn entityref="ne" ne="other">
+        <spec gen="f" num="s">
+          <d gen="f" lem="el" num="s" pos="da0fs0" postype="article" wd="la"/>
+        </spec>
+        <grup.nom gen="f" num="s">
+          <n lem="Chimera" ne="other" pos="np0000a" postype="proper" sense="16:cs1" wd="Chimera"/>
+          <sp>
+            <prep>
+              <s lem="en" pos="sps00" postype="preposition" wd="en"/>
+            </prep>
+            <sn entityref="ne" ne="other">
+              <grup.nom>
+                <f lem="-" pos="fg" punct="hyphen" wd="-"/>
+                <n lem="El_Oso_Malayo" ne="other" pos="np0000a" postype="proper" sense="16:cs1" wd="El_Oso_Malayo"/>
+                <f lem="-" pos="fg" punct="hyphen" wd="-"/>
+              </grup.nom>
+            </sn>
+          </sp>
+        </grup.nom>
+      </sn>
+    </sn>
+    <f lem="." pos="fp" punct="period" wd="."/>
+  </sentence>
+  <sentence>
+    <sn arg="arg0" func="suj" tem="agt">
+      <grup.nom gen="m" num="p">
+        <p gen="m" lem="poco" num="p" pos="pi0mp000" postype="indefinite" wd="Pocos"/>
+      </grup.nom>
+    </sn>
+    <morfema.pronominal>
+      <p gen="c" lem="él" num="c" person="3" pos="p0300000" wd="se"/>
+    </morfema.pronominal>
+    <grup.verb>
+      <v lem="haber" mood="indicative" num="p" person="3" pos="vaic3p0" postype="auxiliary" tense="conditional" wd="habrían"/>
+      <v gen="m" lem="atreverse" lss="A22.transitive-agentive-theme" mood="participle" num="s" pos="vmp00sm" postype="main" wd="atrevido"/>
+    </grup.verb>
+    <sp arg="arg1" func="creg" tem="tem">
+      <prep>
+        <s lem="con" pos="sps00" postype="preposition" wd="con"/>
+      </prep>
+      <sn>
+        <spec gen="m" num="s">
+          <d gen="m" lem="uno" num="s" pos="di0ms0" postype="indefinite" wd="un"/>
+        </spec>
+        <grup.nom gen="m" num="s">
+          <n gen="m" lem="tema" num="s" pos="ncms000" postype="common" sense="16:04950638" wd="tema"/>
+          <s.a gen="f" num="s">
+            <sadv>
+              <grup.adv>
+                <r lem="tanto" pos="rg" wd="tan"/>
+              </grup.adv>
+            </sadv>
+            <s.a gen="f" num="s">
+              <spec>
+                <r lem="metafísicamente" pos="rg" wd="metafísicamente"/>
+              </spec>
+              <grup.a gen="f" num="s">
+                <a gen="c" lem="imposible" num="s" pos="aq0cs0" postype="qualificative" wd="imposible"/>
+              </grup.a>
+            </s.a>
+          </s.a>
+        </grup.nom>
+      </sn>
+    </sp>
+    <f lem="." pos="fp" punct="period" wd="."/>
+  </sentence>
+  <sentence>
+    <sn arg="arg1" entityref="ne" func="suj" ne="organization" tem="tem">
+      <spec gen="f" num="s">
+        <d gen="f" lem="el" num="s" pos="da0fs0" postype="article" wd="La"/>
+      </spec>
+      <grup.nom gen="f" num="s">
+        <n gen="f" lem="monarquía" num="s" pos="ncfs000" postype="common" sense="16:06191886" wd="monarquía"/>
+        <sp>
+          <prep>
+            <s lem="de" pos="sps00" postype="preposition" wd="de"/>
+          </prep>
+          <sn entityref="ne" ne="person">
+            <grup.nom gen="m" num="s">
+              <n lem="Alfonso_XIII" ne="person" pos="np0000p" postype="proper" sense="16:cs1" wd="Alfonso_XIII"/>
+              <S clausetype="relative">
+                <sp arg="arg1" func="cd" tem="pat">
+                  <prep>
+                    <s lem="a" pos="sps00" postype="preposition" wd="a"/>
+                  </prep>
+                  <relatiu>
+                    <p gen="c" lem="quien" num="s" pos="pr0cs000" postype="relative" wd="quien"/>
+                  </relatiu>
+                </sp>
+                <sn arg="arg0" func="suj" tem="agt">
+                  <grup.nom gen="m" num="p">
+                    <p gen="m" lem="todo" num="p" pos="pi0mp000" postype="indefinite" wd="todos"/>
+                  </grup.nom>
+                </sn>
+                <grup.verb>
+                  <v lem="considerar" lss="A21.transitive-agentive-patient" mood="indicative" num="p" person="3" pos="vmii3p0" postype="main" tense="imperfect" wd="consideraban"/>
+                </grup.verb>
+                <sa arg="arg2" func="cpred" predicate="cd" tem="atr">
+                  <grup.a>
+                    <a gen="c" lem="gafe" num="s" pos="aq0cs0" postype="qualificative" wd="gafe"/>
+                  </grup.a>
+                </sa>
+                <sp arg="argM" func="cc" tem="cau">
+                  <prep>
+                    <s lem="por" pos="sps00" postype="preposition" wd="por"/>
+                  </prep>
+                  <sn>
+                    <spec gen="m" num="s">
+                      <d gen="m" lem="el" num="s" pos="da0ms0" postype="article" wd="el"/>
+                    </spec>
+                    <grup.nom gen="m" num="s">
+                      <s.a gen="m" num="s">
+                        <grup.a gen="m" num="s">
+                          <a gen="c" lem="numeral" num="s" pos="aq0cs0" postype="qualificative" wd="numeral"/>
+                        </grup.a>
+                      </s.a>
+                      <sp>
+                        <f lem="-" pos="fg" punct="hyphen" wd="-"/>
+                        <f lem="-" pos="fg" punct="hyphen" wd="-"/>
+                        <prep>
+                          <s lem="de" pos="sps00" postype="preposition" wd="de"/>
+                        </prep>
+                        <sn entityref="ne" ne="other">
+                          <spec gen="m" num="p">
+                            <d gen="m" lem="el" num="p" pos="da0mp0" postype="article" wd="los"/>
+                          </spec>
+                          <grup.nom gen="m" num="p">
+                            <n gen="m" lem="idus" num="c" pos="ncmn000" postype="common" sense="16:10891977" wd="idus"/>
+                            <s.a gen="m" num="p">
+                              <grup.a gen="m" num="p">
+                                <a gen="m" lem="romano" num="p" pos="aq0mp0" postype="qualificative" wd="romanos"/>
+                              </grup.a>
+                            </s.a>
+                          </grup.nom>
+                        </sn>
+                        <f lem="-" pos="fg" punct="hyphen" wd="-"/>
+                        <f lem="-" pos="fg" punct="hyphen" wd="-"/>
+                      </sp>
+                    </grup.nom>
+                  </sn>
+                </sp>
+              </S>
+            </grup.nom>
+          </sn>
+        </sp>
+      </grup.nom>
+    </sn>
+    <morfema.pronominal>
+      <p gen="c" lem="él" num="c" person="3" pos="p0300000" wd="se"/>
+    </morfema.pronominal>
+    <grup.verb>
+      <v lem="hundir" lss="B21.unaccusative-state" mood="indicative" num="s" person="3" pos="vmis3s0" postype="main" tense="past" wd="hundió"/>
+    </grup.verb>
+    <sp arg="argM" func="cc" tem="cau">
+      <prep>
+        <s lem="por" pos="sps00" postype="preposition" wd="por"/>
+      </prep>
+      <S clausetype="completive" impersonal="yes">
+        <infinitiu>
+          <v lem="haber" mood="infinitive" pos="van0000" postype="auxiliary" wd="haberse"/>
+          <v gen="m" lem="atreverse" lss="A22.transitive-agentive-theme" mood="participle" num="s" pos="vmp00sm" postype="main" wd="atrevido"/>
+        </infinitiu>
+        <sp arg="arg1" func="creg" tem="tem">
+          <prep>
+            <s lem="a" pos="sps00" postype="preposition" wd="a"/>
+          </prep>
+          <S clausetype="completive" impersonal="yes">
+            <infinitiu>
+              <v lem="meter" lss="A21.transitive-agentive-patient" mood="infinitive" pos="vmn0000" postype="main" wd="meter"/>
+            </infinitiu>
+            <sp arg="arg2" func="cc" tem="loc">
+              <prep>
+                <s lem="en" pos="sps00" postype="preposition" wd="en"/>
+              </prep>
+              <sn>
+                <spec gen="f" num="s">
+                  <d gen="f" lem="el" num="s" pos="da0fs0" postype="article" wd="la"/>
+                </spec>
+                <grup.nom gen="f" num="s">
+                  <n gen="f" lem="cárcel" num="s" pos="ncfs000" postype="common" sense="16:02872007" wd="cárcel"/>
+                </grup.nom>
+              </sn>
+            </sp>
+            <sp arg="arg1" func="cd" tem="pat">
+              <prep>
+                <s lem="a" pos="sps00" postype="preposition" wd="a"/>
+              </prep>
+              <sn>
+                <grup.nom gen="f" num="p">
+                  <n gen="f" lem="persona" num="p" pos="ncfp000" postype="common" sense="16:00004123" wd="personas"/>
+                  <s.a coord="yes" gen="f" num="p">
+                    <s.a gen="f" num="p">
+                      <s.a gen="f" num="p">
+                        <spec>
+                          <r lem="tanto" pos="rg" wd="tan"/>
+                          <r lem="inocentemente" pos="rg" wd="inocentemente"/>
+                        </spec>
+                        <grup.a gen="f" num="p">
+                          <a gen="c" lem="noble" num="p" pos="aq0cp0" postype="qualificative" wd="nobles"/>
+                        </grup.a>
+                      </s.a>
+                      <S adjunct="yes" clausesubtype="comparative" clausetype="adverbial" verbless="yes">
+                        <conj conjunctiontype="subordinating">
+                          <c lem="como" pos="cs" postype="subordinating" wd="como"/>
+                        </conj>
+                        <sn entityref="ne" ne="person">
+                          <grup.nom gen="m" num="s">
+                            <n lem="Fernando_de_los_Ríos" ne="person" pos="np0000p" postype="proper" sense="16:cs1" wd="Fernando_de_los_Ríos"/>
+                          </grup.nom>
+                        </sn>
+                      </S>
+                    </s.a>
+                    <f lem="," pos="fc" punct="comma" wd=","/>
+                    <s.a gen="f" num="p">
+                      <s.a gen="f" num="p">
+                        <spec>
+                          <r lem="tanto" pos="rg" wd="tan"/>
+                          <r lem="genialmente" pos="rg" wd="genialmente"/>
+                        </spec>
+                        <grup.a gen="f" num="p">
+                          <a gen="f" lem="lírico" num="p" pos="aq0fp0" postype="qualificative" wd="líricas"/>
+                        </grup.a>
+                      </s.a>
+                      <S adjunct="yes" clausesubtype="comparative" clausetype="adverbial" verbless="yes">
+                        <conj conjunctiontype="subordinating">
+                          <c lem="como" pos="cs" postype="subordinating" wd="como"/>
+                        </conj>
+                        <sn entityref="ne" ne="person">
+                          <grup.nom gen="m" num="s">
+                            <n lem="Valle_Inclán" ne="person" pos="np0000p" postype="proper" sense="16:cs1" wd="Valle_Inclán"/>
+                          </grup.nom>
+                        </sn>
+                      </S>
+                    </s.a>
+                    <conj conjunctiontype="coordinating">
+                      <c lem="y" pos="cc" postype="coordinating" wd="y"/>
+                    </conj>
+                    <s.a gen="f" num="p">
+                      <s.a gen="f" num="p">
+                        <spec>
+                          <r lem="tanto" pos="rg" wd="tan"/>
+                          <r lem="poco" pos="rg" wd="poco"/>
+                        </spec>
+                        <grup.a gen="f" num="p">
+                          <a gen="f" lem="peligroso" num="p" pos="aq0fp0" postype="qualificative" wd="peligrosas"/>
+                        </grup.a>
+                      </s.a>
+                      <S adjunct="yes" clausesubtype="comparative" clausetype="adverbial" verbless="yes">
+                        <conj conjunctiontype="subordinating">
+                          <c lem="como" pos="cs" postype="subordinating" wd="como"/>
+                        </conj>
+                        <sn>
+                          <grup.nom num="s">
+                            <p case="nominative" gen="c" lem="yo" num="s" person="1" pos="pp1csn00" postype="personal" wd="yo"/>
+                          </grup.nom>
+                        </sn>
+                      </S>
+                    </s.a>
+                  </s.a>
+                </grup.nom>
+              </sn>
+            </sp>
+          </S>
+        </sp>
+      </S>
+    </sp>
+    <f lem="." pos="fp" punct="period" wd="."/>
+  </sentence>
+  <sentence>
+    <sp arg="argM" func="cc" tem="adv">
+      <prep>
+        <s lem="con" pos="sps00" postype="preposition" wd="Con"/>
+      </prep>
+      <sn>
+        <grup.nom gen="m" num="s">
+          <p gen="c" lem="ese" num="s" pos="pd0ns000" postype="demonstrative" wd="eso"/>
+        </grup.nom>
+      </sn>
+    </sp>
+    <sn arg="arg0" elliptic="yes" func="suj" tem="agt"/>
+    <grup.verb>
+      <v lem="demostrar" lss="A21.transitive-agentive-patient" mood="indicative" num="s" person="3" pos="vmii3s0" postype="main" tense="imperfect" wd="demostraba"/>
+    </grup.verb>
+    <sn arg="arg1" func="cd" tem="pat">
+      <spec arg="arg1" gen="f" num="s" tem="pat">
+        <d gen="c" lem="su" num="s" person="3" pos="dp3cs0" postype="possessive" wd="su"/>
+      </spec>
+      <grup.nom gen="f" num="s">
+        <n gen="f" lem="desorientación" lexicalid="noun.desorientación.1.default" num="s" origin="deverbal" pos="ncfs000" postype="common" sense="16:04393245" wd="desorientación"/>
+      </grup.nom>
+    </sn>
+    <f lem="." pos="fp" punct="period" wd="."/>
+  </sentence>
+  <sentence verbless="yes">
+    <sn>
+      <grup.nom gen="f" num="p">
+        <n gen="f" lem="definición" lexicalid="noun.definición.1.default" num="p" origin="deverbal" pos="ncfp000" postype="common" sense="16:05054071" wd="Definiciones"/>
+        <s.a func="cn" gen="f" num="p">
+          <grup.a gen="f" num="p">
+            <a gen="c" lem="infantil" num="p" pos="aq0cp0" postype="qualificative" wd="infantiles"/>
+          </grup.a>
+        </s.a>
+        <S coord="yes" func="cn">
+          <f lem=":" pos="fd" punct="colon" wd=":"/>
+          <S>
+            <S arg="arg1" clausetype="completive" func="cd" tem="pat">
+              <sn arg="arg0" func="suj" tem="agt">
+                <spec gen="m" num="p">
+                  <d gen="m" lem="todo" num="p" pos="di0mp0" postype="indefinite" wd="Todos"/>
+                  <d gen="m" lem="el" num="p" pos="da0mp0" postype="article" wd="los"/>
+                </spec>
+                <grup.nom gen="m" num="p">
+                  <n gen="m" lem="primito" num="p" pos="ncmp000" postype="common" sense="16:cs1" wd="primitos"/>
+                  <sp>
+                    <prep>
+                      <s lem="de" pos="sps00" postype="preposition" wd="de"/>
+                    </prep>
+                    <sn>
+                      <spec gen="f" num="p">
+                        <d gen="f" lem="el" num="p" pos="da0fp0" postype="article" wd="las"/>
+                      </spec>
+                      <grup.nom gen="f" num="p">
+                        <n gen="f" lem="niña" num="p" pos="ncfp000" postype="common" sense="16:07260273" wd="niñas"/>
+                      </grup.nom>
+                    </sn>
+                  </sp>
+                </grup.nom>
+              </sn>
+              <grup.verb>
+                <v lem="orinar" lss="D11.inergative-agentive" mood="indicative" num="p" person="3" pos="vmip3p0" postype="main" tense="present" wd="orinan"/>
+              </grup.verb>
+              <sp arg="argM" func="cc" tem="adv">
+                <prep>
+                  <s lem="por" pos="sps00" postype="preposition" wd="por"/>
+                </prep>
+                <sn>
+                  <spec gen="m" num="s">
+                    <d gen="m" lem="uno" num="s" pos="di0ms0" postype="indefinite" wd="un"/>
+                  </spec>
+                  <grup.nom gen="m" num="s">
+                    <n gen="m" lem="dedo" num="s" pos="ncms000" postype="common" sense="16:04312269" wd="dedo"/>
+                    <s.a gen="m" num="s">
+                      <grup.a gen="m" num="s">
+                        <a gen="c" lem="meñique" num="s" pos="aq0cs0" postype="qualificative" wd="meñique"/>
+                      </grup.a>
+                    </s.a>
+                  </grup.nom>
+                </sn>
+              </sp>
+            </S>
+            <f lem="-" pos="fg" punct="hyphen" wd="-"/>
+            <f lem="-" pos="fg" punct="hyphen" wd="-"/>
+            <grup.verb>
+              <v lem="decir" lss="A32.ditransitive-patient-benefactive" mood="indicative" num="p" person="3" pos="vmip3p0" postype="main" tense="present" wd="dicen"/>
+            </grup.verb>
+            <sn arg="arg0" func="suj" tem="agt">
+              <grup.nom gen="f" num="p">
+                <p gen="f" lem="él" num="p" person="3" pos="pp3fp000" postype="personal" wd="ellas"/>
+              </grup.nom>
+            </sn>
+            <f lem="-" pos="fg" punct="hyphen" wd="-"/>
+            <f lem="-" pos="fg" punct="hyphen" wd="-"/>
+          </S>
+          <conj conjunctiontype="coordinating">
+            <c lem="y" pos="cc" postype="coordinating" wd="y"/>
+          </conj>
+          <S>
+            <sn arg="arg0" func="suj" tem="agt">
+              <spec gen="f" num="p">
+                <d gen="f" lem="el" num="p" pos="da0fp0" postype="article" wd="las"/>
+              </spec>
+              <grup.nom gen="f" num="p">
+                <n gen="f" lem="doncella" num="p" pos="ncfp000" postype="common" sense="16:07538334" wd="doncellas"/>
+                <sp>
+                  <prep>
+                    <s lem="de" pos="sps00" postype="preposition" wd="de"/>
+                  </prep>
+                  <sn>
+                    <spec gen="m" num="p">
+                      <d gen="m" lem="el" num="p" pos="da0mp0" postype="article" wd="los"/>
+                    </spec>
+                    <grup.nom gen="m" num="p">
+                      <n gen="m" lem="niño" num="p" pos="ncmp000" postype="common" sense="16:07389783" wd="niños"/>
+                      <sp>
+                        <prep>
+                          <s lem="de" pos="sps00" postype="preposition" wd="de"/>
+                        </prep>
+                        <sn>
+                          <spec gen="f" num="s">
+                            <d gen="f" lem="el" num="s" pos="da0fs0" postype="article" wd="la"/>
+                            <d gen="f" lem="mismo" num="s" pos="di0fs0" postype="indefinite" wd="misma"/>
+                          </spec>
+                          <grup.nom gen="f" num="s">
+                            <n gen="f" lem="edad" num="s" pos="ncfs000" postype="common" sense="16:03853114" wd="edad"/>
+                          </grup.nom>
+                        </sn>
+                      </sp>
+                    </grup.nom>
+                  </sn>
+                </sp>
+              </grup.nom>
+            </sn>
+            <grup.verb>
+              <v lem="orinar" lss="D11.inergative-agentive" mood="indicative" num="p" person="3" pos="vmip3p0" postype="main" tense="present" wd="orinan"/>
+            </grup.verb>
+            <sp arg="argM" func="cc" tem="adv">
+              <prep>
+                <s lem="por" pos="sps00" postype="preposition" wd="por"/>
+              </prep>
+              <sn>
+                <spec gen="m" num="s">
+                  <d gen="m" lem="uno" num="s" pos="di0ms0" postype="indefinite" wd="un"/>
+                </spec>
+                <grup.nom gen="m" num="s">
+                  <n gen="m" lem="cepillo" num="s" pos="ncms000" postype="common" sense="16:02343835" wd="cepillo"/>
+                </grup.nom>
+              </sn>
+            </sp>
+            <S arg="argM" clausetype="adverbial" func="cc" tem="adv">
+              <conj conjunctiontype="subordinating">
+                <c lem="según" pos="cs" postype="subordinating" wd="según"/>
+              </conj>
+              <grup.verb>
+                <v lem="decir" lss="A32.ditransitive-patient-benefactive" mood="indicative" num="p" person="3" pos="vmip3p0" postype="main" tense="present" wd="dicen"/>
+              </grup.verb>
+              <sn arg="arg0" func="suj" tem="agt">
+                <grup.nom gen="m" num="p">
+                  <p gen="m" lem="él" num="p" person="3" pos="pp3mp000" postype="personal" wd="ellos"/>
+                </grup.nom>
+              </sn>
+            </S>
+          </S>
+        </S>
+      </grup.nom>
+    </sn>
+    <f lem="." pos="fp" punct="period" wd="."/>
+  </sentence>
+  <sentence coord="yes">
+    <S>
+      <sn arg="arg1" func="suj" tem="tem">
+        <spec gen="f" num="s">
+          <d gen="f" lem="el" num="s" pos="da0fs0" postype="article" wd="La"/>
+        </spec>
+        <grup.nom gen="f" num="s">
+          <s.a gen="f" num="s">
+            <grup.a gen="f" num="s">
+              <a gen="f" lem="buen" num="s" pos="aq0fs0" postype="qualificative" wd="buena"/>
+            </grup.a>
+          </s.a>
+          <n gen="f" lem="ciudadanía" num="s" pos="ncfs000" postype="common" sense="16:06069040" wd="ciudadanía"/>
+        </grup.nom>
+      </sn>
+      <grup.verb>
+        <v lem="consistir" lss="C21.state-attributive" mood="indicative" num="s" person="3" pos="vmip3s0" postype="main" tense="present" wd="consiste"/>
+      </grup.verb>
+      <sp arg="arg2" func="creg" tem="atr">
+        <prep>
+          <s lem="en" pos="sps00" postype="preposition" wd="en"/>
+        </prep>
+        <S clausetype="completive" coord="yes" impersonal="yes">
+          <S clausetype="completive" impersonal="yes">
+            <infinitiu>
+              <v lem="cultivar" lss="A11.transitive-causative" mood="infinitive" pos="vmn0000" postype="main" wd="cultivar"/>
+            </infinitiu>
+            <sn arg="arg1" func="cd" tem="tem">
+              <spec gen="f" num="s">
+                <d gen="f" lem="el" num="s" pos="da0fs0" postype="article" wd="la"/>
+              </spec>
+              <grup.nom gen="f" num="s">
+                <n gen="f" lem="prudencia" num="s" pos="ncfs000" postype="common" sense="16:03673384" wd="prudencia"/>
+              </grup.nom>
+            </sn>
+          </S>
+          <conj conjunctiontype="coordinating">
+            <c lem="y" pos="cc" postype="coordinating" wd="y"/>
+          </conj>
+          <S clausetype="completive" impersonal="yes">
+            <infinitiu>
+              <v lem="preferir" lss="A21.transitive-agentive-patient" mood="infinitive" pos="vmn0000" postype="main" wd="preferirla"/>
+            </infinitiu>
+            <sp arg="argM" func="cc" tem="adv">
+              <prep>
+                <s lem="a" pos="sps00" postype="preposition" wd="a"/>
+              </prep>
+              <sn>
+                <spec gen="f" num="s">
+                  <d gen="f" lem="el" num="s" pos="da0fs0" postype="article" wd="la"/>
+                </spec>
+                <grup.nom gen="f" num="s">
+                  <n gen="f" lem="aventura" lexicalid="noun.aventura.1.default" num="s" origin="deverbal" pos="ncfs000" postype="common" sense="16:00509169" wd="aventura"/>
+                </grup.nom>
+              </sn>
+            </sp>
+          </S>
+        </S>
+      </sp>
+      <f lem="," pos="fc" punct="comma" wd=","/>
+    </S>
+    <conj conjunctiontype="coordinating">
+      <c lem="pero" pos="cc" postype="coordinating" wd="pero"/>
+    </conj>
+    <S>
+      <S arg="argM" clausetype="adverbial" func="cc" impersonal="yes" tem="adv">
+        <gerundi>
+          <v lem="pensar" lss="A21.transitive-agentive-patient" mood="gerund" pos="vmg0000" postype="main" wd="pensándolo"/>
+        </gerundi>
+        <sn arg="argM" func="cc" tem="adv">
+          <spec gen="f" num="p">
+            <d gen="c" lem="dos" num="p" pos="dn0cp0" postype="numeral" wd="dos"/>
+          </spec>
+          <grup.nom gen="f" num="p">
+            <n gen="f" lem="vez" num="p" pos="ncfp000" postype="common" sense="16:05449233" wd="veces"/>
+          </grup.nom>
+        </sn>
+      </S>
+      <sn arg="arg0" func="suj" tem="agt">
+        <spec gen="f" num="s">
+          <d gen="f" lem="el" num="s" pos="da0fs0" postype="article" wd="la"/>
+        </spec>
+        <grup.nom gen="f" num="s">
+          <n gen="f" lem="ciudadanía" num="s" pos="ncfs000" postype="common" sense="16:06069040" wd="ciudadanía"/>
+          <s.a gen="f" num="s">
+            <grup.a gen="f" num="s">
+              <a gen="c" lem="razonable" num="s" pos="aq0cs0" postype="qualificative" wd="razonable"/>
+            </grup.a>
+          </s.a>
+        </grup.nom>
+      </sn>
+      <sn arg="arg1" func="cd" tem="pat">
+        <grup.nom num="p">
+          <p gen="c" lem="yo" num="p" person="1" pos="pp1cp000" postype="personal" wd="nos"/>
+        </grup.nom>
+      </sn>
+      <grup.verb>
+        <v lem="llevar" lss="A21.transitive-agentive-patient" mood="indicative" num="s" person="3" pos="vmip3s0" postype="main" tense="present" wd="lleva"/>
+      </grup.verb>
+      <sp arg="arg4" func="creg" tem="des">
+        <prep>
+          <s contracted="yes" gen="m" lem="al" num="s" pos="spcms" postype="preposition" wd="al"/>
+        </prep>
+        <sn>
+          <grup.nom gen="m" num="s">
+            <n gen="m" lem="caos" num="c" pos="ncmn000" postype="common" sense="16:10068579" wd="caos"/>
+          </grup.nom>
+        </sn>
+      </sp>
+      <sp arg="argM" func="cc" tem="adv">
+        <prep>
+          <s lem="con" pos="sps00" postype="preposition" wd="con"/>
+        </prep>
+        <sn>
+          <spec coord="yes" gen="f" num="p">
+            <spec gen="f" num="p">
+              <d gen="c" lem="tres" num="p" pos="dn0cp0" postype="numeral" wd="tres"/>
+            </spec>
+            <conj conjunctiontype="coordinating">
+              <c lem="o" pos="cc" postype="coordinating" wd="o"/>
+            </conj>
+            <spec gen="f" num="p">
+              <d gen="c" lem="cuatro" num="p" pos="dn0cp0" postype="numeral" wd="cuatro"/>
+            </spec>
+          </spec>
+          <grup.nom gen="f" num="p">
+            <n gen="f" lem="guerra" num="p" pos="ncfp000" postype="common" sense="16:00626011" wd="guerras"/>
+          </grup.nom>
+        </sn>
+      </sp>
+      <sn arg="argM" func="cc" tem="tmp">
+        <spec gen="m" num="s">
+          <d gen="c" lem="cada" num="s" pos="di0cs0" postype="indefinite" wd="cada"/>
+        </spec>
+        <grup.nom gen="m" num="s">
+          <n gen="m" lem="siglo" num="s" pos="ncms000" postype="common" sense="16:10918678" wd="siglo"/>
+        </grup.nom>
+      </sn>
+    </S>
+    <f lem="." pos="fp" punct="period" wd="."/>
+  </sentence>
+  <sentence coord="yes">
+    <S>
+      <sn arg="arg1" func="suj" tem="tem">
+        <spec gen="m" num="s">
+          <d gen="m" lem="el" num="s" pos="da0ms0" postype="article" wd="El"/>
+        </spec>
+        <grup.nom gen="m" num="s">
+          <n gen="m" lem="camaleón" num="s" pos="ncms000" postype="common" sense="16:01214598" wd="camaleón"/>
+        </grup.nom>
+      </sn>
+      <neg func="mod">
+        <r lem="no" pos="rn" postype="negative" wd="no"/>
+      </neg>
+      <grup.verb>
+        <v lem="tener" lss="C21.state-attributive" mood="indicative" num="s" person="3" pos="vmip3s0" postype="main" tense="present" wd="tiene"/>
+      </grup.verb>
+      <sn arg="arg2" complex="yes" func="cd" functype="quantitative" tem="atr">
+        <grup.nom coord="yes">
+          <grup.nom coord="yes">
+            <grup.nom gen="m" num="s">
+              <n gen="m" lem="color" num="s" pos="ncms000" postype="common" sense="16:03875475" wd="color"/>
+            </grup.nom>
+            <conj conjunctiontype="coordinating">
+              <c lem="ni" pos="cc" postype="coordinating" wd="ni"/>
+            </conj>
+            <grup.nom gen="f" num="s">
+              <n gen="f" lem="actividad" num="s" pos="ncfs000" postype="common" sense="16:03655835" wd="actividad"/>
+            </grup.nom>
+          </grup.nom>
+          <S adjunct="yes" clausetype="relative">
+            <relatiu arg="arg0" func="suj" tem="agt">
+              <p gen="c" lem="que" num="c" pos="pr0cn000" postype="relative" wd="que"/>
+            </relatiu>
+            <sn arg="arg1" func="cd" tem="pat">
+              <grup.nom gen="m" num="s">
+                <p case="accusative" gen="m" lem="él" num="s" person="3" pos="pp3msa00" postype="personal" wd="lo"/>
+              </grup.nom>
+            </sn>
+            <grup.verb>
+              <v lem="definir" lss="A21.transitive-agentive-patient" mood="subjunctive" num="s" person="3" pos="vmsp3s0" postype="main" tense="present" wd="defina"/>
+            </grup.verb>
+          </S>
+        </grup.nom>
+      </sn>
+    </S>
+    <conj conjunctiontype="coordinating">
+      <c lem="y" pos="cc" postype="coordinating" wd="y"/>
+    </conj>
+    <S>
+      <sp arg="argM" func="cc" tem="cau">
+        <prep>
+          <s lem="por" pos="sps00" postype="preposition" wd="por"/>
+        </prep>
+        <sn>
+          <grup.nom gen="m" num="s">
+            <p gen="c" lem="ese" num="s" pos="pd0ns000" postype="demonstrative" wd="eso"/>
+          </grup.nom>
+        </sn>
+      </sp>
+      <sn arg="arg0" elliptic="yes" func="suj" tem="agt"/>
+      <sn arg="arg2" func="ci" tem="ben">
+        <grup.nom num="s">
+          <p case="dative" gen="c" lem="él" num="s" person="3" pos="pp3csd00" postype="personal" wd="le"/>
+        </grup.nom>
+      </sn>
+      <grup.verb>
+        <v lem="dar" lss="A32.ditransitive-patient-benefactive" mood="indicative" num="p" person="1" pos="vmip1p0" postype="main" tense="present" wd="damos"/>
+      </grup.verb>
+      <sn arg="arg1" func="cd" tem="pat">
+        <spec gen="m" num="s">
+          <d gen="m" lem="uno" num="s" pos="di0ms0" postype="indefinite" wd="un"/>
+        </spec>
+        <grup.nom gen="m" num="s">
+          <n gen="m" lem="nombre" num="s" pos="ncms000" postype="common" sense="16:04768298" wd="nombre"/>
+          <s.a gen="m" num="s">
+            <spec>
+              <r lem="tanto" pos="rg" wd="tan"/>
+              <r lem="contradictoriamente" pos="rg" wd="contradictoriamente"/>
+            </spec>
+            <grup.a gen="m" num="s">
+              <a gen="m" lem="sonoro" num="s" pos="aq0ms0" postype="qualificative" wd="sonoro"/>
+            </grup.a>
+          </s.a>
+        </grup.nom>
+      </sn>
+    </S>
+    <f lem="." pos="fp" punct="period" wd="."/>
+  </sentence>
+  <sentence coord="yes">
+    <S coord="yes">
+      <S>
+        <sn arg="arg1" func="suj" tem="tem">
+          <spec gen="f" num="s">
+            <d gen="f" lem="el" num="s" pos="da0fs0" postype="article" wd="La"/>
+          </spec>
+          <grup.nom gen="f" num="s">
+            <n lem="Tierra" ne="other" pos="np0000a" postype="proper" sense="16:cs1" wd="Tierra"/>
+          </grup.nom>
+        </sn>
+        <morfema.pronominal>
+          <p gen="c" lem="él" num="c" person="3" pos="p0300000" wd="se"/>
+        </morfema.pronominal>
+        <grup.verb>
+          <v lem="hacer" lss="B21.unaccusative-state" mood="indicative" num="s" person="3" pos="vmip3s0" postype="main" tense="present" wd="hace"/>
+        </grup.verb>
+        <sa arg="arg2" func="cpred" predicate="suj" tem="atr">
+          <grup.a>
+            <a gen="f" lem="viejo" num="s" pos="aq0fs0" postype="qualificative" wd="vieja"/>
+          </grup.a>
+        </sa>
+      </S>
+      <conj conjunctiontype="coordinating">
+        <c lem="y" pos="cc" postype="coordinating" wd="y"/>
+      </conj>
+      <S>
+        <sn arg="arg1" elliptic="yes" func="suj" tem="tem"/>
+        <sadv func="mod">
+          <grup.adv>
+            <r lem="tal_vez" pos="rg" wd="tal_vez"/>
+          </grup.adv>
+        </sadv>
+        <grup.verb>
+          <v lem="deber" mood="indicative" num="s" person="3" pos="vmic3s0" postype="main" tense="conditional" wd="debería"/>
+          <infinitiu>
+            <v lem="entrar" lss="B21.unaccusative-state" mood="infinitive" pos="vmn0000" postype="main" wd="entrar"/>
+          </infinitiu>
+        </grup.verb>
+        <sadv arg="argM" func="cc" tem="adv">
+          <grup.adv>
+            <r lem="ya" pos="rg" wd="ya"/>
+          </grup.adv>
+        </sadv>
+        <sp arg="arg2" func="cc" tem="efi">
+          <prep>
+            <s lem="en" pos="sps00" postype="preposition" wd="en"/>
+          </prep>
+          <sn>
+            <spec gen="f" num="s">
+              <d gen="f" lem="el" num="s" pos="da0fs0" postype="article" wd="la"/>
+            </spec>
+            <grup.nom gen="f" num="s">
+              <n gen="f" lem="menopausia" num="s" pos="ncfs000" postype="common" sense="16:10875637" wd="menopausia"/>
+            </grup.nom>
+          </sn>
+        </sp>
+      </S>
+    </S>
+    <conj conjunctiontype="coordinating">
+      <c lem="pero" pos="cc" postype="coordinating" wd="pero"/>
+    </conj>
+    <S coord="yes">
+      <S>
+        <sn arg="arg0" elliptic="yes" func="suj" tem="agt"/>
+        <grup.verb>
+          <v lem="seguir" mood="indicative" num="s" person="3" pos="vmip3s0" postype="main" tense="present" wd="sigue"/>
+          <gerundi>
+            <v lem="fornicar" lss="D11.inergative-agentive" mood="gerund" pos="vmg0000" postype="main" wd="fornicando"/>
+          </gerundi>
+        </grup.verb>
+      </S>
+      <conj conjunctiontype="coordinating">
+        <c lem="y" pos="cc" postype="coordinating" wd="y"/>
+      </conj>
+      <S verbless="yes">
+        <grup.verb>
+          <gerundi>
+            <v lem="engendrar" lss="A21.transitive-agentive-patient" mood="gerund" pos="vmg0000" postype="main" wd="engendrando"/>
+          </gerundi>
+        </grup.verb>
+        <sn>
+          <grup.nom gen="m" num="p">
+            <n gen="m" lem="monstruo" num="p" pos="ncmp000" postype="common" sense="16:07277959" wd="monstruos"/>
+          </grup.nom>
+        </sn>
+      </S>
+    </S>
+    <f lem="." pos="fp" punct="period" wd="."/>
+  </sentence>
+</article>
