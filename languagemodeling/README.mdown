@@ -14,8 +14,8 @@ ciencias políticas durante su doctorado.
 ## Count:
 + Antes de contabilizar las apariciones a cada sentencia le agrego
   n - 1 marcadores de inicio de oración y uno de fin de oración.
-+ Al agregar los marcadores de inicio y fin de oración, 
-debí modificar el count del n-grama para que no contabilice 
++ Al agregar los marcadores de inicio y fin de oración,
+debí modificar el count del n-grama para que no contabilice
 la aparición del inicio de oración.
 
 ## Sent prob:
@@ -25,7 +25,7 @@ la aparición del inicio de oración.
  que no poseen n-1 tokens previos.
 + Al encontrar una probabilidad condicional igual a 0, se detiene el cálculo para
 para no generar una división por 0 en la probabilidad condicional del siguiente token.
-    -Ej: En un bigrama: 
+    -Ej: En un bigrama:
     P('come salmón .') = P('come salmón'|'come') * P('salmón .'| salmón)
     El cálculo del segundo termino deriva en una división por 0, pero podemos evitarlo ya que
     el primer término es 0.
@@ -55,15 +55,15 @@ Además ya guardo este diccionario como una lista ordenada en sorted_probs.
 ## Resultados:
 Utilicé gutenber("austen-emma.txt"), 90% training, 10% test.
 
-### Model AddOneNGram unigrama:
+### Model AddOneNGram 1-gram:
     Cross Entropy: -8.741343458528988
     Perplexity: 427.96335492643317
 
-### Model AddOneNGram bigrama:
+### Model AddOneNGram 2-gram:
     Cross Entropy: -9.184235746245667
     Perplexity: 581.742036435503
 
-### Model AddOneNGram trigrama:
+### Model AddOneNGram 3-gram:
     Cross Entropy: -9.624914012094338
     Perplexity: 789.5648813437084
 
@@ -80,13 +80,44 @@ de LangModel.
 Como un bonus LangModel posee un método protegido para construir un diccionario de "count" de tokens dado un "n" en particular.
 
 
+
+#Ejercicio 6
+## Resultados
+Utilicé gutenber("austen-emma.txt"), 90% training, 10% test.
+
+Model Interpolation 1-gram :
+Cross Entropy: 9.168128471123755
+Perplexity: 575.2831766914427
+
+Model Interpolation 2-gram :
+Cross Entropy: 7.633968691576826
+Perplexity: 198.63398802283703
+
+Model Interpolation 3-gram :
+Cross Entropy: 7.57360859135918
+Perplexity: 190.49490365947366
+
+Model Interpolation 4-gram :
+Cross Entropy: 7.572392444744009
+Perplexity: 190.33439010116342
+
+
 #Ejercicio 7
+## Resultados
+Utilicé gutenber("austen-emma.txt"), 90% training, 10% test.
 
+Model BackOff 1-gram:
+Cross Entropy: 9.168128471123755
+Perplexity: 575.2831766914427
 
-Para este ejercicio reimplementé la forma en que construyo el diccionario de counts
-obteniendo un solo diccionario en vez uno para cada nivel(k).
+Model BackOff 2-gram:
+Cross Entropy: 7.467723118236617
+Perplexity: 177.01442467779452
 
-No llegué a completar el ejercicio 7. Aún falla el test test_norm_3gram.
+Model Backoff 3-gram:
+Cross Entropy: 7.440033456043668
+Perplexity: 173.64938078921136
 
-Como no está terminada la implementación de forma correcta no tengo aún los resultados
-de perplexity.
+Model Backoff 4-gram:
+Cross Entropy: 7.480548864386591
+Perplexity: 178.59512177694722
