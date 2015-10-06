@@ -369,7 +369,8 @@ class BackOffNGram(LangModel):
         self.As = defaultdict(set)
         for tokens in self.counts.keys():
             if tokens != (()):
-                self.As[tokens[:-1]].add(tokens[-1])
+                if tokens[-1] != BEGIN:
+                    self.As[tokens[:-1]].add(tokens[-1])
 
     def trainDenoms(self):
         self.denoms = defaultdict(float)
@@ -385,17 +386,21 @@ class BackOffNGram(LangModel):
         tokens -- the k-gram tuple.
         """
         tokens = tuple(tokens)
-
-        return self.As[tokens]
+        a = self.As.get(tokens)
+        if not a:
+            a = set()
+        return a
 
     def alpha(self, tokens):
         """Missing probability mass for a k-gram with 0 < k < n.
 
         tokens -- the k-gram tuple.
         """
-        tokens = tuple(tokens)
-
-        alpha = self.beta * len(self.As[tokens]) / self.count(tokens)
+        A = self.A(tokens)
+        if len(A) != 0:
+            alpha = self.beta * len(A) / self.count(tokens)
+        else:
+            alpha = 1
         return alpha
 
     def denom(self, tokens):
@@ -404,7 +409,10 @@ class BackOffNGram(LangModel):
         tokens -- the k-gram tuple.
         """
         tokens = tuple(tokens)
-        return self.denoms[tokens]
+        denom = self.denoms.get(tokens)
+        if not denom:
+            denom = 1
+        return denom
 
     def count(self, tokens):
         """Count for an n-gram or (n-1)-gram.
