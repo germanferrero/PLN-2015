@@ -1,3 +1,5 @@
+import itertools
+from collections import Counter
 
 
 class BaselineTagger:
@@ -6,7 +8,12 @@ class BaselineTagger:
         """
         tagged_sents -- training sentences, each one being a list of pairs.
         """
-        pass
+        words_tags = list(itertools.chain(*tagged_sents))
+        words, tags = zip(*words_tags)
+
+        self.words = words
+        self.freq_words_tags = Counter(words_tags)
+        self.most_freq_tag = Counter(tags).most_common(1)[0][0]
 
     def tag(self, sent):
         """Tag a sentence.
@@ -20,11 +27,18 @@ class BaselineTagger:
 
         w -- the word.
         """
-        return 'nc'
+        if self.unknown(w):
+            tag = self.most_freq_tag
+        else:
+            most_common_word_tag_count = max([fwt for fwt in list(self.freq_words_tags.items())
+                                              if fwt[0][0] == w],
+                                             key=lambda x: x[1])
+            tag = most_common_word_tag_count[0][1]
+        return tag
 
     def unknown(self, w):
         """Check if a word is unknown for the model.
 
         w -- the word.
         """
-        return True
+        return not w in self.words

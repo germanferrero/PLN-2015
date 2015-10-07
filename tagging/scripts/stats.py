@@ -20,17 +20,6 @@ if __name__ == '__main__':
     # load the data
     corpus = SimpleAncoraCorpusReader('ancora/ancora-2.0/')
     sents = list(corpus.tagged_sents())
-
-    # words_set = set()
-    # tags = defaultdict((int,defaultdict((int,))))
-    # words_amount = 0
-    # for sent in sents:
-    #     for word, tag in sent:
-    #         words_set.add(word)
-    #         tags[tag][0] =+ 1
-    #         tags[tag][1].append(word)
-    #         words_amount += 1
-
     words_tags = list(itertools.chain(*sents))
     freq_words_tags = Counter(words_tags)
     words_amount = len(words_tags)
@@ -56,5 +45,8 @@ if __name__ == '__main__':
         print('Tag: {}'.format(tag))
         print('ocurrences: {}'.format(count))
         print('percentaje: {}%'.format(100*(count/len(tags))))
-        common_words_count = sorted([fwt for fwt in list(freq_words_tags.items()) if fwt[0][1] == tag], key=lambda x: x[1], reverse=True)[:5]
+        common_words_count = sorted([fwt for fwt in list(freq_words_tags.items())
+                                     if fwt[0][1] == tag],
+                                    key=lambda x: x[1],
+                                    reverse=True)[:5]
         print('Common words: {}'.format([cwc[0][0] for cwc in common_words_count]))
