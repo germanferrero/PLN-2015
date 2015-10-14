@@ -11,7 +11,7 @@ from docopt import docopt
 
 from corpus.ancora import SimpleAncoraCorpusReader
 
-from collections import defaultdict, Counter
+from collections import Counter
 import itertools
 
 if __name__ == '__main__':
