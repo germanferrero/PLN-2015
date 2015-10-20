@@ -55,14 +55,11 @@ class HMM:
         word -- the word.
         tag -- the tag.
         """
-        if self.unknown(word):
-            return 1 / len(self.wordset)
+        probs = self.out[tag]
+        if word not in probs.keys():
+            return 0
         else:
-            probs = self.out[tag]
-            if word not in probs.keys():
-                return 0
-            else:
-                return probs[word]
+            return probs[word]
 
     def out_log_prob(self, word, tag):
         """Log Probability of a word given a tag.
@@ -86,7 +83,7 @@ class HMM:
 
         for tag in y:
             prob *= self.trans_prob(tag, current_prev_tags)
-            current_prev_tags = current_prev_tags[1:] + (tag,)
+            current_prev_tags = (current_prev_tags + (tag,))[1:]
         return prob
 
     def prob(self, x, y):
@@ -226,6 +223,21 @@ class MLHMM(HMM):
         w -- the word.
         """
         return w not in self.wordset
+
+    def out_prob(self, word, tag):
+        """Probability of a word given a tag.
+
+        word -- the word.
+        tag -- the tag.
+        """
+        if self.unknown(word):
+            return 1 / len(self.wordset)
+        else:
+            probs = self.out[tag]
+            if word not in probs.keys():
+                return 0
+            else:
+                return probs[word]
 
     def trans_prob(self, tag, prev_tags):
         """Probability of a tag.
