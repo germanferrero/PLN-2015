@@ -14,6 +14,10 @@ class BaselineTagger:
         self.words = words
         self.freq_words_tags = Counter(words_tags)
         self.most_freq_tag = Counter(tags).most_common(1)[0][0]
+        self.most_freq_tags = {}
+        word_set = set(words)
+        for word in word_set:
+            self.most_freq_tags[word] = self.get_tag_word(word)
 
     def tag(self, sent):
         """Tag a sentence.
@@ -23,6 +27,9 @@ class BaselineTagger:
         return [self.tag_word(w) for w in sent]
 
     def tag_word(self, w):
+        return self.most_freq_tags[w]
+
+    def get_tag_word(self, w):
         """Tag a word.
 
         w -- the word.
@@ -41,4 +48,4 @@ class BaselineTagger:
 
         w -- the word.
         """
-        return not w in self.words
+        return w not in self.words
