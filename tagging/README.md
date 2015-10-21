@@ -71,4 +71,52 @@ percentaje: 2.9042971921711764%
 Common words: ['y', 'pero', 'o', 'Pero', 'e']
 
 
-#Ejercicio1
+#Ejercicio4
+
+Resultados:
+
+n=1
+
+100.0%(89.01%,95.32%,31.80%)
+
+Accuracy: 89.01%
+Accuracy in known words: 95.32%
+Accuracy in unknown words: 31.80%
+
+real    0m12.658s
+user    0m12.588s
+sys 0m0.052s
+
+n = 2
+
+100.0%(92.72%,97.61%,48.42%)
+
+Accuracy: 92.72%
+Accuracy in known words: 97.61%
+Accuracy in unknown words: 48.42%
+
+real    0m22.109s
+user    0m22.027s
+sys 0m0.068s
+
+n=3
+
+100.0%(93.17%,97.67%,52.31%)
+Accuracy: 93.17%
+Accuracy in known words: 97.67%
+Accuracy in unknown words: 52.31%
+
+real    1m10.965s
+user    1m10.891s
+sys 0m0.088s
+
+
+n=4
+100.0%(93.14%,97.44%,54.14%)
+Accuracy: 93.14%
+Accuracy in known words: 97.44%
+Accuracy in unknown words: 54.14%
+
+real    6m13.231s
+user    6m12.601s
+sys 0m0.616s

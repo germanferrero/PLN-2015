@@ -126,7 +126,6 @@ class HMM:
         tagger = ViterbiTagger(self)
         return tagger.tag(sent)
 
-
 class ViterbiTagger:
 
     def __init__(self, hmm):
@@ -151,18 +150,17 @@ class ViterbiTagger:
             for tag in tags:
                 e = self.hmm.out_log_prob(sent[k-1], tag)
                 if e > float('-inf'):
-                    for prev_tags, (prob, tag_sent) in self._pi[k-1].items():
+                    for prev_tags, (prev_prob, tag_sent) in self._pi[k-1].items():
                         # Note that this is iterate over all combinatios of tags Uk-(n-2) Uk, such that Ui belongs tu Ki(i) for each i.
                         # But, we just ignore those combinations that we know have pi(k-1,tag,Uk-(n-2),...,Uk-1) == 0
-                        pik_1 = prob
                         q = self.hmm.trans_log_prob(tag, prev_tags)
-                        prob = pik_1 + q + e
+                        prob = prev_prob + q + e
                         if prob > self._pi[k][(prev_tags + (tag,))[1:]][0]:
                             self._pi[k][(prev_tags + (tag,))[1:]] = (prob, tag_sent + [tag])
 
         # Finally return the tag sequence whose last n-1 tags maximize trans_prob to STOP_TAG
         return max(self._pi[N].items(),
-                   key=lambda x: x[1][0] * self.hmm.trans_log_prob(STOP_TAG, x[0])
+                   key=lambda x: x[1][0] + self.hmm.trans_log_prob(STOP_TAG, x[0])
                    )[1][1]
 
 
@@ -190,10 +188,10 @@ class MLHMM(HMM):
         for (word, tag), count in counts.items():
             out[tag].update({word: count})
 
-        for tag, count in out.items():
-            total_sum = sum(count.values())
+        for tag, counter in out.items():
+            total_sum = sum(counter.values())
             self.out[tag] = {}
-            for word, word_count in count.items():
+            for word, word_count in counter.items():
                 self.out[tag][word] = float(word_count) / total_sum
 
     def _construct_tcounts(self, tagged_sents):
@@ -205,7 +203,6 @@ class MLHMM(HMM):
 
             for i in range(len(t_sent) - self.n + 1):
                 ngram = tuple(map(lambda x: x[1], t_sent[i: i + self.n]))
-                # self.trans[ngram[:-1]].update([ngram[-1]])
                 self.tcounts[ngram] += 1
                 self.tcounts[ngram[:-1]] += 1
 
