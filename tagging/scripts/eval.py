@@ -50,10 +50,13 @@ if __name__ == '__main__':
 
         model_words_tags = zip(word_sent, model_tag_sent)
 
-        unk_words_gold_tags = [(word, tag) for (word, tag) in sent if model.unknown(word)]
-        unk_words_tags = [(word, tag) for (word, tag) in model_words_tags if model.unknown(word)]
+        unk_words_gold_tags = [(word, tag) for (word, tag)
+                               in sent if model.unknown(word)]
+        unk_words_tags = [(word, tag) for (word, tag)
+                          in model_words_tags if model.unknown(word)]
 
-        unk_hits_sent = [m == g for m, g in zip(unk_words_tags, unk_words_gold_tags)]
+        unk_hits_sent = [m == g for m, g
+                         in zip(unk_words_tags, unk_words_gold_tags)]
         unk_hits += sum(unk_hits_sent)
         unk_total += len(unk_words_tags)
         unk_acc = float(unk_hits) / unk_total
@@ -68,8 +71,9 @@ if __name__ == '__main__':
         known_total += (len(sent) - len(unk_words_tags))
         known_acc = float(known_hits) / known_total
 
-        progress('{:3.1f}%({:2.2f}%,{:2.2f}%,{:2.2f}%)'.format(float(i) * 100 / n,
-                                                               acc * 100, known_acc * 100, unk_acc * 100))
+        progress('{:3.1f}%({:2.2f}%,{:2.2f}%,{:2.2f}%)'
+                 .format(float(i) * 100 / n,
+                         acc * 100, known_acc * 100, unk_acc * 100))
 
     acc = float(hits) / total
 

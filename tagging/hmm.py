@@ -126,6 +126,7 @@ class HMM:
         tagger = ViterbiTagger(self)
         return tagger.tag(sent)
 
+
 class ViterbiTagger:
 
     def __init__(self, hmm):
@@ -151,14 +152,17 @@ class ViterbiTagger:
                 e = self.hmm.out_log_prob(sent[k-1], tag)
                 if e > float('-inf'):
                     for prev_tags, (prev_prob, tag_sent) in self._pi[k-1].items():
-                        # Note that this is iterate over all combinatios of tags Uk-(n-2) Uk, such that Ui belongs tu Ki(i) for each i.
-                        # But, we just ignore those combinations that we know have pi(k-1,tag,Uk-(n-2),...,Uk-1) == 0
+                        # Note that this is iterate over all combinatios of tags
+                        # Uk-(n-2) Uk, such that Ui belongs tu Ki(i) for each i.
+                        # But, we just ignore those combinations that we know
+                        # have pi(k-1,tag,Uk-(n-2),...,Uk-1) == 0
                         q = self.hmm.trans_log_prob(tag, prev_tags)
                         prob = prev_prob + q + e
                         if prob > self._pi[k][(prev_tags + (tag,))[1:]][0]:
                             self._pi[k][(prev_tags + (tag,))[1:]] = (prob, tag_sent + [tag])
 
-        # Finally return the tag sequence whose last n-1 tags maximize trans_prob to STOP_TAG
+        # Finally return the tag sequence whose last n-1 tags maximize
+        # trans_prob to STOP_TAG
         return max(self._pi[N].items(),
                    key=lambda x: x[1][0] + self.hmm.trans_log_prob(STOP_TAG, x[0])
                    )[1][1]

@@ -3,12 +3,12 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import LinearSVC
 from sklearn.linear_model import LogisticRegression
 from featureforge.vectorizer import Vectorizer
-from tagging.features import *
+from tagging.features import (History, word_lower, word_istitle, word_isupper,
+                              word_isdigit, NPrevTags, PrevWord)
 import itertools
 
 BEGIN = BEGIN_TAG = '<s>'
 END = STOP_TAG = '</s>'
-
 
 
 class MEMM:
@@ -39,7 +39,8 @@ class MEMM:
         nprevs_features = [NPrevTags(i) for i in range(1, self.n)]
         prev_word_features = [PrevWord(f) for f in features]
 
-        vectorizer = Vectorizer(features + nprevs_features + prev_word_features)
+        vectorizer = Vectorizer(features
+                                + nprevs_features + prev_word_features)
 
         self.tagger = Pipeline([('vectorizer', vectorizer),
                                 ('classifier', classifiers[classifier])
