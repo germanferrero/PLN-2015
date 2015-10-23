@@ -63,8 +63,7 @@ class NPrevTags(Feature):
 
         h -- a history.
         """
-        total_n = len(h.prev_tags)
-        return h.prev_tags[total_n-self.n:]
+        return h.prev_tags[-self.n:]
 
 
 class PrevWord(Feature):

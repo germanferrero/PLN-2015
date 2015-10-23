@@ -71,7 +71,15 @@ percentaje: 2.9042971921711764%
 Common words: ['y', 'pero', 'o', 'Pero', 'e']
 
 
-#Ejercicio4
+#Ejercicio 2
+
+Resultados Baseline:
+Accuracy: 89.03%,
+Accuracy in known words: 95.34%
+Accuracy in unknown words: 31.80%
+
+
+#Ejercicio 4
 
 Resultados:
 
@@ -120,3 +128,44 @@ Accuracy in unknown words: 54.14%
 real    6m13.231s
 user    6m12.601s
 sys 0m0.616s
+
+Ejercicio 7
+
+Accuracy pattern is (total accuracy,known words accuracy, unknown words accuracy)
+
+n=1
+
+Logistic Regression: 100.0%(92.70%,95.28%,69.32%)
+
+Linear SVC: 100.0%(94.43%,97.04%,70.82%)
+real    0m19.866s
+user    0m19.765s
+sys 0m0.072s
+
+
+n=2
+
+Logistic Regression: 100.0%(91.99%,94.55%,68.75%)
+
+Linear SVC: 100.0%(94.29%,96.91%,70.57%)
+
+n=3
+
+Logistic Regression: 100.0%(92.18%,94.71%,69.21%)
+
+Linear SVC: 100.0%(94.40%,96.94%,71.38%)
+
+n=4
+
+Logistic Regression: 100.0%(92.23%,94.72%,69.60%)
+real    0m24.303s
+user    0m24.212s
+sys 0m0.084s
+
+Linear SVC: 100%(94.46%,96.96%,71.81%)
+real    0m24.174s
+user    0m24.086s
+sys 0m0.080s
+
+
+
