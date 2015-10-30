@@ -1,14 +1,14 @@
 """Evaulate a parser.
 
 Usage:
-  eval.py -i <file> [-m <sent_max_length>] [-n <sents_count>]
+  eval.py -i <file> [-m <m>] [-n <n>]
   eval.py -h | --help
 
 Options:
   -i <file>     Parsing model file.
+  -m <m>        Parse only sentences of length <= <m>.
+  -n <n>        Parse only <n> sentences (useful for profiling).
   -h --help     Show this screen.
-  -m <sent_max_length> Eval only sents with less than m+1 words.
-  -n <sents_count> Eval only first n sents.
 """
 
 from docopt import docopt
