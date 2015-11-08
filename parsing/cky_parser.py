@@ -21,6 +21,7 @@ class CKYParser:
         n = len(sent)
         self._pi = defaultdict(lambda: defaultdict(float))
         self._bp = defaultdict(lambda: defaultdict(Tree))
+
         for i, w in enumerate(sent, start=1):
             for prod in self.grammar.productions(rhs=w):
                 self._pi[(i, i)][prod.lhs().symbol()] = prod.logprob()
@@ -36,7 +37,7 @@ class CKYParser:
                     for c in combinations:
                         prods = [prod for prod in self.grammar.productions(rhs=Nonterminal(c[0])) if tuple(map(lambda x: x.symbol(), prod.rhs())) == c]
                         for prod in prods:
-                            last_prob = self._pi[(i, j)].get(prod.lhs(), float('-inf'))
+                            last_prob = self._pi[(i, j)].get(prod.lhs().symbol(), float('-inf'))
                             current_prob = prod.logprob() + lbranch[c[0]] + rbranch[c[1]]
                             if current_prob > last_prob:
                                 self._pi[(i, j)][prod.lhs().symbol()] = current_prob
@@ -44,4 +45,4 @@ class CKYParser:
                                 right_bps = self._bp[(s + 1, j)][c[1]]
                                 self._bp[(i, j)][prod.lhs().symbol()] = Tree(prod.lhs().symbol(), [left_bps, right_bps])
 
-        return (self._bp[(1, n)]['S'], self._pi[(1, n)]['S'])
+        return (self._pi[(1, n)]['S'], self._bp[(1, n)]['S'])
