@@ -12,6 +12,7 @@ class CKYParser:
         """
 
         self.grammar = grammar
+        self.start = grammar.start()
 
     def parse(self, sent):
         """Parse a sequence of terminals.
@@ -45,4 +46,7 @@ class CKYParser:
                                 right_bps = self._bp[(s + 1, j)][c[1]]
                                 self._bp[(i, j)][prod.lhs().symbol()] = Tree(prod.lhs().symbol(), [left_bps, right_bps])
 
-        return (self._pi[(1, n)]['S'], self._bp[(1, n)]['S'])
+        if self.start.symbol() in self._pi[(1, n)]:
+            return (self._pi[(1, n)]['S'], self._bp[(1, n)]['S'])
+        else:
+            return None, None
