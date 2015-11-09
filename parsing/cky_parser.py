@@ -1,6 +1,4 @@
 from collections import defaultdict
-from itertools import product
-from nltk.grammar import Nonterminal
 from nltk.tree import Tree
 
 
@@ -13,6 +11,12 @@ class CKYParser:
 
         self.grammar = grammar
         self.start = grammar.start()
+        self.prods = defaultdict(list)
+        for prod in self.grammar.productions():
+            self.prods[self.symbols(prod.rhs())].append(prod)
+
+    def symbols(self, hs):
+        return tuple(str(e) for e in hs)
 
     def parse(self, sent):
         """Parse a sequence of terminals.
@@ -24,7 +28,7 @@ class CKYParser:
         self._bp = defaultdict(lambda: defaultdict(Tree))
 
         for i, w in enumerate(sent, start=1):
-            for prod in self.grammar.productions(rhs=w):
+            for prod in self.prods[(w,)]:
                 self._pi[(i, i)][prod.lhs().symbol()] = prod.logprob()
                 self._bp[(i, i)][prod.lhs().symbol()] = Tree(prod.lhs().symbol(), [w])
 
@@ -34,19 +38,19 @@ class CKYParser:
                 for s in range(i, j):
                     lbranch = self._pi[(i, s)]
                     rbranch = self._pi[(s + 1, j)]
-                    combinations = product(lbranch, rbranch)
-                    for c in combinations:
-                        prods = [prod for prod in self.grammar.productions(rhs=Nonterminal(c[0])) if tuple(map(lambda x: x.symbol(), prod.rhs())) == c]
-                        for prod in prods:
-                            last_prob = self._pi[(i, j)].get(prod.lhs().symbol(), float('-inf'))
-                            current_prob = prod.logprob() + lbranch[c[0]] + rbranch[c[1]]
-                            if current_prob > last_prob:
-                                self._pi[(i, j)][prod.lhs().symbol()] = current_prob
-                                left_bps = self._bp[(i, s)][c[0]]
-                                right_bps = self._bp[(s + 1, j)][c[1]]
-                                self._bp[(i, j)][prod.lhs().symbol()] = Tree(prod.lhs().symbol(), [left_bps, right_bps])
+                    for lk in lbranch.keys():
+                        for rk in rbranch.keys():
+                            for prod in self.prods[(lk, rk)]:
+                                last_prob = self._pi[(i, j)].get(prod.lhs().symbol(), float('-inf'))
+                                current_prob = prod.logprob() + lbranch[lk] + rbranch[rk]
+                                if current_prob > last_prob:
+                                    self._pi[(i, j)][prod.lhs().symbol()] = current_prob
+                                    left_bps = self._bp[(i, s)][lk]
+                                    right_bps = self._bp[(s + 1, j)][rk]
+                                    self._bp[(i, j)][prod.lhs().symbol()] = Tree(prod.lhs().symbol(), [left_bps, right_bps])
 
-        if self.start.symbol() in self._pi[(1, n)]:
-            return (self._pi[(1, n)]['S'], self._bp[(1, n)]['S'])
+        start = self.start.symbol()
+        if start in self._pi[(1, n)]:
+            return (self._pi[(1, n)][start], self._bp[(1, n)][start])
         else:
             return None, None

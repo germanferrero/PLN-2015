@@ -9,7 +9,7 @@ class UPCFG:
     """Unlexicalized PCFG.
     """
 
-    def __init__(self, parsed_sents, start='sentence'):
+    def __init__(self, parsed_sents, start='sentence', horzMarkov=None):
         """
         parsed_sents -- list of training trees.
         """
@@ -18,6 +18,7 @@ class UPCFG:
         unlex_sents = []
         for psent in parsed_sents:
             ul_sent = unlexicalize(psent.copy(deep=True))
+            ul_sent.chomsky_normal_form(horzMarkov=horzMarkov)
             ul_sent.collapse_unary(collapsePOS=True, collapseRoot=True)
             unlex_sents.append(ul_sent)
 
