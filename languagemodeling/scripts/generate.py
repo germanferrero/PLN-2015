@@ -12,8 +12,6 @@ Options:
 from docopt import docopt
 import pickle
 
-from nltk.corpus import gutenberg
-
 from languagemodeling.ngram import NGramGenerator
 
 
@@ -21,7 +19,7 @@ if __name__ == '__main__':
     opts = docopt(__doc__)
 
     filename = opts['-i']
-    with open(filename,'rb') as f:
+    with open(filename, 'rb') as f:
         model = pickle.load(f)
 
     # number of sentences
@@ -30,4 +28,6 @@ if __name__ == '__main__':
     generator = NGramGenerator(model)
     for i in range(n):
         sent = generator.generate_sent()
+        print ('')
         print (' '.join(sent))
+        print ('')
